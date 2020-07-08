@@ -1,3 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">HierarchyMemo</string>
+
+    <string name="common_date_year_month_day">MMM d, yyyy</string>
+    <string name="common_date_year_month">MMM, yyyy</string>
+
+    <!--  Main  -->
+    <string name="main_template_todo">TODO</string>
+    <string name="main_template_title">&#60; Template &#62;</string>
+    <string name="main_template_today_todo">1. Today TODO</string>
+    <string name="main_template_this_week_todo">2. This Week TODO</string>
+    <string name="main_template_this_month_todo">3. This Month TODO</string>
+
+    <!--  Translatable false  -->
+    <string name="main_today_format" translatable="false">yyyy-MM-dd E</string>
+    <string name="main_today_string" translatable="false">TODAY [%s]</string>
+    <string name="main_progress" translatable="false">PROGRESS</string>
+    <string name="main_completed" translatable="false">COMPLETED</string>
+
 </resources>
