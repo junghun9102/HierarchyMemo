@@ -14,15 +14,18 @@ import com.yangdroid.hierarchymemo.utils.getTodayTodoString
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainContract.View {
 
-    private val presenter = MainPresenter(this)
+    @Inject
+    lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
             presenter = this@MainActivity.presenter
+            lifecycleOwner = this@MainActivity
         }
 
         initViews()
@@ -83,4 +86,5 @@ class MainActivity : BaseActivity(), MainContract.View {
         presenter.changeModeToNormal()
         et_main_edit.text.clear()
     }
+
 }

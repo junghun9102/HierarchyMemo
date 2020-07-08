@@ -4,14 +4,14 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.ViewTreeObserver
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import com.yangdroid.hierarchymemo.extension.observeNotNull
 import com.yangdroid.hierarchymemo.extension.plusAssign
 import com.yangdroid.hierarchymemo.utils.AutoClearedDisposable
+import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
     lateinit var disposables: AutoClearedDisposable
 
