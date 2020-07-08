@@ -6,11 +6,17 @@
     <string name="common_date_year_month_day">yyyy년 M월 d일</string>
     <string name="common_date_year_month">yyyy년 M월 </string>
 
+    <!--  Item  -->
+    <!--  Memo  -->
+    <string name="item_memo_created_date_format">생성일 : %s</string>
+    <string name="item_memo_completed_date_format">완료일 : %s</string>
+
+    <!--  Activity  -->
     <!--  Main  -->
     <string name="main_template_todo">할 일</string>
     <string name="main_template_title">&#60; Template &#62;</string>
-    <string name="main_template_today_todo">오늘 할 일</string>
-    <string name="main_template_this_week_todo">이번 주 할 일</string>
-    <string name="main_template_this_month_todo">이번 달 할 일</string>
+    <string name="main_template_today_todo">1. 오늘 할 일</string>
+    <string name="main_template_this_week_todo">2. 이번 주 할 일</string>
+    <string name="main_template_this_month_todo">3. 이번 달 할 일</string>
 
 </resources>

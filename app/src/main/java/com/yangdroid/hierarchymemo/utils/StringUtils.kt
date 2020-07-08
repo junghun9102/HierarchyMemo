@@ -7,6 +7,8 @@ import java.util.*
 
 object StringUtils {
 
+    fun getYearMonthDayStr(context: Context, date: Date) = date.format(getYearMonthDay(context))
+
     fun getTodayTodo(context: Context): String {
         val dateString = Date().format(getYearMonthDay(context))
         val todo = getTodo(context)

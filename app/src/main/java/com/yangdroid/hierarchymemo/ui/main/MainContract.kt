@@ -7,8 +7,7 @@ import java.util.*
 interface MainContract {
     interface View: BaseView {
         fun showTodayDate(date: Date)
-        fun showProgressMemoList(memoList: List<Memo>)
-        fun showCompletedMemoList(memoList: List<Memo>)
+        fun showMemoList(memoList: List<Memo>)
         fun focusMemoEditText()
     }
 

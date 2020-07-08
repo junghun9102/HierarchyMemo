@@ -6,6 +6,12 @@
     <string name="common_date_year_month_day">MMM d, yyyy</string>
     <string name="common_date_year_month">MMM, yyyy</string>
 
+    <!--  Item  -->
+    <!--  Memo  -->
+    <string name="item_memo_created_date_format">CreatedDate : %s</string>
+    <string name="item_memo_completed_date_format">CompletedDate : %s</string>
+
+    <!--  Activity  -->
     <!--  Main  -->
     <string name="main_template_todo">TODO</string>
     <string name="main_template_title">&#60; Template &#62;</string>

@@ -1,25 +1,19 @@
 package com.yangdroid.hierarchymemo.ui.main
 
 import android.content.Context
-import android.content.res.Configuration
-import android.graphics.Rect
 import android.os.Bundle
-import android.view.KeyCharacterMap
-import android.view.KeyEvent
-import android.view.ViewConfiguration
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.component.BaseActivity
 import com.yangdroid.hierarchymemo.databinding.ActivityMainBinding
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
-import com.yangdroid.hierarchymemo.utils.*
+import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
+import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
+import com.yangdroid.hierarchymemo.utils.getTodayTodoString
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class MainActivity : BaseActivity(), MainContract.View {
 
@@ -31,8 +25,8 @@ class MainActivity : BaseActivity(), MainContract.View {
             presenter = this@MainActivity.presenter
         }
 
-        presenter.onCreate()
         initViews()
+        presenter.onCreate()
     }
 
     override fun onResume() {
@@ -47,12 +41,17 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     private fun initViews() {
         initTemplateClick()
+        initMemoRecyclerView()
     }
 
     private fun initTemplateClick() {
         tv_main_template_today.setOnClickListener { setMemoEditText(getTodayTodoString()) }
         tv_main_template_week.setOnClickListener { setMemoEditText(getThisWeekTodoString()) }
         tv_main_template_month.setOnClickListener { setMemoEditText(getThisMonthTodoString()) }
+    }
+
+    private fun initMemoRecyclerView() {
+        rv_main_memo.adapter = MemoRecyclerAdapter()
     }
 
     private fun setMemoEditText(content: String) {
@@ -69,12 +68,8 @@ class MainActivity : BaseActivity(), MainContract.View {
         tv_main_today.text = dateString
     }
 
-    override fun showProgressMemoList(memoList: List<Memo>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun showCompletedMemoList(memoList: List<Memo>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showMemoList(memoList: List<Memo>) {
+        (rv_main_memo.adapter as MemoRecyclerAdapter).initMemoList(memoList)
     }
 
     override fun focusMemoEditText() {
