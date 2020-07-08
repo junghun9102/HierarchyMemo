@@ -3,8 +3,11 @@
 
     <string name="app_name">HierarchyMemo</string>
 
+    <!--  Common  -->
     <string name="common_date_year_month_day">MMM d, yyyy</string>
     <string name="common_date_year_month">MMM, yyyy</string>
+
+    <string name="common_error_message_empty_write">There is no memo content</string>
 
     <!--  Item  -->
     <!--  Memo  -->
@@ -18,6 +21,7 @@
     <string name="main_template_today_todo">1. Today TODO</string>
     <string name="main_template_this_week_todo">2. This Week TODO</string>
     <string name="main_template_this_month_todo">3. This Month TODO</string>
+    <string name="main_emtpy_message">EMPTY</string>
 
     <!--  Translatable false  -->
     <string name="main_today_format" translatable="false">yyyy-MM-dd E</string>

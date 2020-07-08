@@ -9,6 +9,11 @@ interface MainContract {
         fun showTodayDate(date: Date)
         fun showMemoList(memoList: List<Memo>)
         fun focusMemoEditText()
+        fun showErrorMessage(message: String)
+        fun showEmptyMessage()
+        fun hideEmptyMessage()
+        fun updateNewMemo(memo: Memo)
+        fun hideSoftKeyboard()
     }
 
     interface Presenter {
@@ -18,5 +23,6 @@ interface MainContract {
         fun changeTypeToCompleted()
         fun changeModeToEdit()
         fun changeModeToNormal()
+        fun writeMemo(content: String)
     }
 }

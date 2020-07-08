@@ -109,6 +109,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!--  EmptyMessage  -->
+        <TextView
+            android:id="@+id/tv_main_empty_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_emtpy_message"
+            android:textColor="@color/colorGrey"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <!--  EditMode  -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

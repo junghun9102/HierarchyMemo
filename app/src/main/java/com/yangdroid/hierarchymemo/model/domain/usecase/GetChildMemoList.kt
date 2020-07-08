@@ -6,8 +6,9 @@ import com.yangdroid.hierarchymemo.model.domain.repository.MemoRepository
 import com.yangdroid.hierarchymemo.model.domain.schedulers.SchedulersProvider
 import io.reactivex.Observable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class GetChildMemoList (
+class GetChildMemoList @Inject constructor (
     private val memoRepository: MemoRepository,
     schedulersProvider: SchedulersProvider
 ) : SingleUseCase<List<Memo>, Long>(schedulersProvider) {

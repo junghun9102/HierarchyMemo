@@ -7,6 +7,9 @@ import androidx.databinding.DataBindingUtil
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.component.BaseActivity
 import com.yangdroid.hierarchymemo.databinding.ActivityMainBinding
+import com.yangdroid.hierarchymemo.extension.makeGone
+import com.yangdroid.hierarchymemo.extension.makeVisible
+import com.yangdroid.hierarchymemo.extension.showErrorToast
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
 import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
@@ -51,6 +54,17 @@ class MainActivity : BaseActivity(), MainContract.View {
         tv_main_template_today.setOnClickListener { setMemoEditText(getTodayTodoString()) }
         tv_main_template_week.setOnClickListener { setMemoEditText(getThisWeekTodoString()) }
         tv_main_template_month.setOnClickListener { setMemoEditText(getThisMonthTodoString()) }
+        iv_main_edit_write.setOnClickListener { onClickWriteButton() }
+    }
+
+    private fun onClickWriteButton() {
+        val memoContent = et_main_edit.text.toString()
+        if (memoContent.isEmpty()) {
+            hideSoftKeyboard()
+            showErrorToast(R.string.common_error_message_empty_write)
+        } else {
+            presenter.writeMemo(memoContent)
+        }
     }
 
     private fun initMemoRecyclerView() {
@@ -80,6 +94,26 @@ class MainActivity : BaseActivity(), MainContract.View {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(et_main_edit, InputMethodManager.SHOW_IMPLICIT)
         }
+    }
+
+    override fun showErrorMessage(message: String) {
+        showErrorToast(message)
+    }
+
+    override fun showEmptyMessage() {
+        tv_main_empty_message.makeVisible()
+    }
+
+    override fun hideEmptyMessage() {
+        tv_main_empty_message.makeGone()
+    }
+
+    override fun updateNewMemo(memo: Memo) {
+        (rv_main_memo.adapter as MemoRecyclerAdapter).addMemo(memo)
+    }
+
+    override fun hideSoftKeyboard() {
+        hideKeyboard()
     }
 
     private fun onHideKeyboard() {

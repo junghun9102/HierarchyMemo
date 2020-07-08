@@ -1,6 +1,5 @@
 package com.yangdroid.hierarchymemo.ui.main
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +46,6 @@ class MemoRecyclerAdapter : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>
             clear()
             addAll(memoList.map(Memo::boxing))
         }
-        Log.e("Test", "${dataSet.size}")
         notifyDataSetChanged()
     }
 

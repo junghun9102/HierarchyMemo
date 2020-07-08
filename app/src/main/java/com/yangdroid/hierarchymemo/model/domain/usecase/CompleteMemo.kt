@@ -6,8 +6,9 @@ import com.yangdroid.hierarchymemo.model.domain.repository.MemoRepository
 import com.yangdroid.hierarchymemo.model.domain.schedulers.SchedulersProvider
 import io.reactivex.Single
 import java.util.*
+import javax.inject.Inject
 
-class CompleteMemo (
+class CompleteMemo @Inject constructor (
     private val memoRepository: MemoRepository,
     schedulersProvider: SchedulersProvider
 ) : SingleUseCase<Memo, Memo>(schedulersProvider) {

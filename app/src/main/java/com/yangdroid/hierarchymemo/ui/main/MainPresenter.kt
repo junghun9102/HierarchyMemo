@@ -1,13 +1,19 @@
 package com.yangdroid.hierarchymemo.ui.main
 
-import android.util.Log
 import androidx.databinding.ObservableField
 import com.yangdroid.hierarchymemo.component.BasePresenter
+import com.yangdroid.hierarchymemo.extension.plusAssign
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
+import com.yangdroid.hierarchymemo.model.domain.usecase.GetRootCompletedMemoList
+import com.yangdroid.hierarchymemo.model.domain.usecase.GetRootProgressMemoList
+import com.yangdroid.hierarchymemo.model.domain.usecase.InsertMemo
 import java.util.*
 
 class MainPresenter(
-    view: MainContract.View
+    view: MainContract.View,
+    private val getRootProgressMemoList: GetRootProgressMemoList,
+    private val getRootCompletedMemoList: GetRootCompletedMemoList,
+    private val insertMemo: InsertMemo
 ) : BasePresenter<MainContract.View>(view), MainContract.Presenter {
 
     val mode = ObservableField<Mode>(Mode.NORMAL)
@@ -16,7 +22,6 @@ class MainPresenter(
     fun onCreate() {
         loadTodayDate()
         loadMemoList()
-        Log.e("Test", "onCreate")
     }
 
     override fun loadTodayDate() {
@@ -30,23 +35,32 @@ class MainPresenter(
         }
     }
 
-    // TODO : temp
-    val childStringList = listOf(
-        "자료구조", "알고리즘", "운영체제", "네트워크"
-    )
-
-    val list = listOf(
-        Memo(5, null, "취업하기", emptyList(), Date(), null),
-        Memo(6, null, "프로그래밍 공부하기", childStringList, Date(), null)
-    )
-
     private fun loadProgressMemoList() {
-        Log.e("Test", "loadProgressMemoList")
-        view.showMemoList(list)
+        compositeDisposable += getRootProgressMemoList.get()
+            .subscribe({ result ->
+                view.showMemoList(result)
+                showOrHideEmptyMessage(result.isEmpty())
+            }) {
+                it.message?.let(view::showErrorMessage)
+            }
     }
 
     private fun loadCompletedMemoList() {
-        view.showMemoList(emptyList())
+        compositeDisposable += getRootCompletedMemoList.get()
+            .subscribe({ result ->
+                view.showMemoList(result)
+                showOrHideEmptyMessage(result.isEmpty())
+            }) {
+                it.message?.let(view::showErrorMessage)
+            }
+    }
+
+    private fun showOrHideEmptyMessage(isEmpty: Boolean) {
+        if (isEmpty) {
+            view.showEmptyMessage()
+        } else {
+            view.hideEmptyMessage()
+        }
     }
 
     override fun changeTypeToProgress() {
@@ -66,6 +80,19 @@ class MainPresenter(
 
     override fun changeModeToNormal() {
         mode.set(Mode.NORMAL)
+    }
+
+    override fun writeMemo(content: String) {
+        val memo = Memo(content = content, childMemoContentList = emptyList(), createdDate = Date())
+        compositeDisposable += insertMemo.get(memo)
+            .subscribe ({ id ->
+                memo.id = id
+                view.updateNewMemo(memo)
+                view.hideEmptyMessage()
+                view.hideSoftKeyboard()
+            }) {
+                it.message?.let(view::showErrorMessage)
+            }
     }
 
     enum class MemoTypeToLoad { PROGRESS, COMPLETED }

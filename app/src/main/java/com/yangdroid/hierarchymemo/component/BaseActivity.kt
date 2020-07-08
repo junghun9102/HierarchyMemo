@@ -1,9 +1,12 @@
 package com.yangdroid.hierarchymemo.component
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import com.yangdroid.hierarchymemo.extension.observeNotNull
@@ -77,6 +80,16 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         decorView.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
+    fun hideKeyboard() {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(this)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 
     protected fun <T> LiveData<T>.observe(observer: (T) -> Unit) = observeNotNull(this@BaseActivity, observer)
 

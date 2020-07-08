@@ -5,8 +5,9 @@ import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.model.domain.repository.MemoRepository
 import io.reactivex.Completable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class MemoRepositoryImpl(
+class MemoRepositoryImpl @Inject constructor(
     private val local: MemoLocalRepository
 ) : MemoRepository {
 
