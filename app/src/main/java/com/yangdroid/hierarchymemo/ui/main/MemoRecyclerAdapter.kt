@@ -91,7 +91,7 @@ class MemoRecyclerAdapter : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>
         }
 
         private fun updateExpandState(memo: MemoBoxed) {
-            val isExpandable = memo.childMemoList.isNotEmpty()
+            val isExpandable = memo.childMemoContentList.isNotEmpty()
             if (isExpandable) {
                 itemView.cl_item_memo_expand.makeVisible()
                 if (memo.isExpand) {

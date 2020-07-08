@@ -31,16 +31,13 @@ class MainPresenter(
     }
 
     // TODO : temp
-    val subList = listOf(
-        Memo(1, "자료구조", emptyList(), Date(), null),
-        Memo(2, "알고리즘", emptyList(), Date(), null),
-        Memo(3, "운영체제", emptyList(), Date(), null),
-        Memo(4, "네트워크", emptyList(), Date(), null)
+    val childStringList = listOf(
+        "자료구조", "알고리즘", "운영체제", "네트워크"
     )
 
     val list = listOf(
-        Memo(5, "취업하기", emptyList(), Date(), null),
-        Memo(6, "프로그래밍 공부하기", subList, Date(), null)
+        Memo(5, null, "취업하기", emptyList(), Date(), null),
+        Memo(6, null, "프로그래밍 공부하기", childStringList, Date(), null)
     )
 
     private fun loadProgressMemoList() {

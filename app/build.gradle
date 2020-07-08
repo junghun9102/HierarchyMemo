@@ -60,6 +60,11 @@ dependencies {
     api "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
     // ETC (https://github.com/Kotlin/anko, https://github.com/airbnb/lottie-android)
     implementation "org.jetbrains.anko:anko-commons:$ankoVersion"
     implementation "com.airbnb.android:lottie:$lottieVersion"

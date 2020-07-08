@@ -12,9 +12,10 @@ import java.lang.StringBuilder
 import java.util.*
 
 data class MemoBoxed(
-    var id: Long,
+    var id: Long?,
+    var parentId: Long?,
     var content: String,
-    val childMemoList: List<Memo>,
+    val childMemoContentList: List<String>,
     var createdDate: Date,
     var completedDate: Date?,
     var isExpand: Boolean = false
@@ -45,13 +46,12 @@ data class MemoBoxed(
         colorInformList.add(Triple(specialCharColor, index, originString.length))
         index = originString.length
 
-        childMemoList.map { it.content }
-            .forEachIndexed { i, subContent ->
-            originString.append("\t\t\t\t\t$subContent")
+        childMemoContentList.forEachIndexed { i, childContent ->
+            originString.append("\t\t\t\t\t$childContent")
             colorInformList.add(Triple(subStrColor, index, originString.length))
             index = originString.length
 
-            if (i != childMemoList.lastIndex) {
+            if (i != childContent.lastIndex) {
                 originString.append(SPANNABLE_SPLIT)
                 colorInformList.add(Triple(specialCharColor, index, originString.length))
                 index = originString.length
@@ -76,5 +76,5 @@ data class MemoBoxed(
 
 }
 
-fun Memo.boxing() = MemoBoxed(id, content, childMemoList, createdDate, completedDate)
-fun MemoBoxed.unboxing() = Memo(id, content, childMemoList, createdDate, completedDate)
+fun Memo.boxing() = MemoBoxed(id, parentId, content, childMemoContentList, createdDate, completedDate)
+fun MemoBoxed.unboxing() = Memo(id, parentId, content, childMemoContentList, createdDate, completedDate)
