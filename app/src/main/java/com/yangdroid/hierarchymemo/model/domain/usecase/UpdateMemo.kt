@@ -1,19 +1,16 @@
 package com.yangdroid.hierarchymemo.model.domain.usecase
 
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
-import com.yangdroid.hierarchymemo.model.domain.interactor.SingleUseCase
+import com.yangdroid.hierarchymemo.model.domain.interactor.CompletableUseCase
 import com.yangdroid.hierarchymemo.model.domain.repository.MemoRepository
 import com.yangdroid.hierarchymemo.model.domain.schedulers.SchedulersProvider
-import io.reactivex.Single
-import java.util.*
+import io.reactivex.Completable
 
-class CompleteMemo (
+class UpdateMemo (
     private val memoRepository: MemoRepository,
     schedulersProvider: SchedulersProvider
-) : SingleUseCase<Memo, Memo>(schedulersProvider) {
+) : CompletableUseCase<Memo>(schedulersProvider) {
 
-    override fun buildUseCaseSingle(params: Memo): Single<Memo> = memoRepository.updateMemo(
-        params.apply { completedDate = Date() }
-    ).toSingle { params }
+    override fun buildUseCaseCompletable(params: Memo): Completable = memoRepository.updateMemo(params)
 
 }

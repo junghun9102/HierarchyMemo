@@ -16,6 +16,8 @@ class MemoRepositoryImpl(
 
     override fun getRootCompletedMemoList(): Single<List<Memo>> = local.getRootCompletedMemoList()
 
+    override fun getChildMemoListByParentId(parentId: Long): Single<List<Memo>> = local.getChildMemoListByParentId(parentId)
+
     override fun getChildMemoContentListByParentId(parentId: Long): Single<List<String>> = local.getChildMemoContentListByParentId(parentId)
 
     override fun insertMemo(memo: Memo): Single<Long> = local.insertMemo(memo)

@@ -8,6 +8,7 @@ interface MemoLocalRepository {
     fun getMemo(id: Long): Single<Memo>
     fun getRootProgressMemoList(): Single<List<Memo>>
     fun getRootCompletedMemoList(): Single<List<Memo>>
+    fun getChildMemoListByParentId(parentId: Long): Single<List<Memo>>
     fun getChildMemoContentListByParentId(parentId: Long): Single<List<String>>
     fun insertMemo(memo: Memo): Single<Long>
     fun updateMemo(memo: Memo): Completable

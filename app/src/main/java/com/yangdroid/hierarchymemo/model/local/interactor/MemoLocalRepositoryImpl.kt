@@ -24,6 +24,10 @@ class MemoLocalRepositoryImpl(
         .getRootCompletedMemoList()
         .map { list -> list.map(memoMapper::mapToEntity) }
 
+    override fun getChildMemoListByParentId(parentId: Long): Single<List<Memo>> = database.memoDAO()
+        .getChildMemoListByParentId(parentId)
+        .map { list -> list.map(memoMapper::mapToEntity) }
+
     override fun getChildMemoContentListByParentId(parentId: Long): Single<List<String>> = database.memoDAO()
         .getChildMemoContentListByParentId(parentId)
 
