@@ -11,9 +11,13 @@ import com.yangdroid.hierarchymemo.extension.makeVisible
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.ui.model.MemoBoxed
 import com.yangdroid.hierarchymemo.ui.model.boxing
+import com.yangdroid.hierarchymemo.ui.model.unboxing
 import kotlinx.android.synthetic.main.item_memo.view.*
 
-class MemoRecyclerAdapter : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>() {
+class MemoRecyclerAdapter(
+    private val onClickMemo: (memo: Memo) -> Unit,
+    private val onLongClickMemo: (memo: Memo) -> Unit
+) : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>() {
 
     private val dataSet = mutableListOf<MemoBoxed>()
 
@@ -25,6 +29,11 @@ class MemoRecyclerAdapter : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>
         view.run {
             iv_item_memo_expand_plus.setOnClickListener { onClickExpandUI(holder.adapterPosition) }
             cl_item_memo_expand_minus.setOnClickListener { onClickExpandUI(holder.adapterPosition) }
+            setOnClickListener { onClickMemo.invoke(dataSet[holder.adapterPosition].unboxing()) }
+            setOnLongClickListener {
+                onLongClickMemo.invoke(dataSet[holder.adapterPosition].unboxing())
+                true
+            }
         }
         return holder
     }
@@ -54,6 +63,14 @@ class MemoRecyclerAdapter : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>
         notifyItemInserted(dataSet.lastIndex)
     }
 
+    fun updateMemo(memo: Memo) {
+        dataSet.find { it.id == memo.id }?.let { memoToUpdate ->
+            val indexToUpdate = dataSet.indexOf(memoToUpdate)
+            memoToUpdate.content = memo.content
+            notifyItemChanged(indexToUpdate)
+        }
+    }
+
     fun removeMemo(memo: Memo) {
         dataSet.find { it.id == memo.id }?.let { memoToRemove ->
             val indexToRemove = dataSet.indexOf(memoToRemove)
@@ -61,6 +78,8 @@ class MemoRecyclerAdapter : RecyclerView.Adapter<MemoRecyclerAdapter.MemoHolder>
             notifyItemRemoved(indexToRemove)
         }
     }
+
+    fun getMemo(position: Int) = dataSet[position].unboxing()
 
     class MemoHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun onBind(memo: MemoBoxed) {

@@ -4,20 +4,23 @@ import androidx.databinding.ObservableField
 import com.yangdroid.hierarchymemo.component.BasePresenter
 import com.yangdroid.hierarchymemo.extension.plusAssign
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
-import com.yangdroid.hierarchymemo.model.domain.usecase.GetRootCompletedMemoList
-import com.yangdroid.hierarchymemo.model.domain.usecase.GetRootProgressMemoList
-import com.yangdroid.hierarchymemo.model.domain.usecase.InsertMemo
+import com.yangdroid.hierarchymemo.model.domain.usecase.*
 import java.util.*
 
 class MainPresenter(
     view: MainContract.View,
     private val getRootProgressMemoList: GetRootProgressMemoList,
     private val getRootCompletedMemoList: GetRootCompletedMemoList,
-    private val insertMemo: InsertMemo
+    private val insertMemo: InsertMemo,
+    private val deleteMemo: DeleteMemo,
+    private val completeMemo: CompleteMemo,
+    private val updateMemo: UpdateMemo
 ) : BasePresenter<MainContract.View>(view), MainContract.Presenter {
 
     val mode = ObservableField<Mode>(Mode.NORMAL)
     val type = ObservableField<MemoTypeToLoad>(MemoTypeToLoad.PROGRESS)
+
+    private var memoToEdit: Memo? = null
 
     fun onCreate() {
         loadTodayDate()
@@ -80,18 +83,64 @@ class MainPresenter(
 
     override fun changeModeToNormal() {
         mode.set(Mode.NORMAL)
+        memoToEdit = null
+    }
+
+    override fun setMemoToUpdate(memo: Memo) {
+        memoToEdit = memo
     }
 
     override fun writeMemo(content: String) {
-        val memo = Memo(content = content, childMemoContentList = emptyList(), createdDate = Date())
-        compositeDisposable += insertMemo.get(memo)
-            .subscribe ({ id ->
-                memo.id = id
-                view.updateNewMemo(memo)
-                view.hideEmptyMessage()
-                view.hideSoftKeyboard()
+        memoToEdit?.let {
+            it.content = content
+            compositeDisposable += updateMemo.get(it)
+                .subscribe({
+                    view.updateMemoToRecyclerView(it)
+                    view.showUpdateCompleteMessage()
+                    view.hideSoftKeyboard()
+                }) { throwable ->
+                    throwable.message?.let(view::showErrorMessage)
+                }
+        } ?: run {
+            val memo =
+                Memo(content = content, childMemoContentList = emptyList(), createdDate = Date())
+            compositeDisposable += insertMemo.get(memo)
+                .subscribe({ id ->
+                    memo.id = id
+                    view.addNewMemoToRecyclerView(memo)
+                    view.hideEmptyMessage()
+                    view.hideSoftKeyboard()
+                }) {
+                    it.message?.let(view::showErrorMessage)
+                }
+        }
+    }
+
+    override fun onDeleteFromRecyclerView(memo: Memo) {
+        if (memo.completedDate == null) {
+            completeMemo(memo)
+        } else {
+            deleteMemoFromDatabase(memo)
+        }
+    }
+
+    private fun deleteMemoFromDatabase(memo: Memo) {
+        compositeDisposable += deleteMemo.get(memo)
+            .subscribe({
+                view.showDeleteCompleteMessage()
             }) {
-                it.message?.let(view::showErrorMessage)
+                loadMemoList()
+                view.showDeleteFailMessage()
+            }
+    }
+
+    private fun completeMemo(memo: Memo) {
+        compositeDisposable += completeMemo.get(memo)
+            .subscribe ({
+                view.showDeleteCompleteMessage()
+            }) {
+                loadMemoList()
+                view.showDeleteFailMessage()
             }
     }
 

@@ -114,7 +114,7 @@
             android:id="@+id/tv_main_empty_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_emtpy_message"
+            android:text="@string/main_empty_message"
             android:textColor="@color/colorGrey"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -236,7 +236,7 @@
             android:padding="20dp"
             android:src="@drawable/ic_create_black_24dp"
             android:tint="@color/colorNormal"
-            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
+            android:visibility="@{(presenter.mode == Mode.NORMAL &amp;&amp; presenter.type == MemoTypeToLoad.PROGRESS) ? View.VISIBLE : View.GONE}"
             android:onClick="@{() -> presenter.changeModeToEdit()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

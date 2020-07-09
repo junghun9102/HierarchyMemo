@@ -8,12 +8,16 @@
     <string name="common_date_year_month">MMM, yyyy</string>
 
     <string name="common_message_error_empty_write">There is no memo content</string>
+    <string name="common_message_error_delete_fail">Delete fail</string>
     <string name="common_message_success_write">Writing success!</string>
+    <string name="common_message_success_delete">Successfully deleted!</string>
+    <string name="common_message_success_update">Update success!</string>
+    <string name="common_message_completed_memo_cannot_edit">Completed notes cannot be edited</string>
 
     <!--  Item  -->
     <!--  Memo  -->
-    <string name="item_memo_created_date_format">CreatedDate : %s</string>
-    <string name="item_memo_completed_date_format">CompletedDate : %s</string>
+    <string name="item_memo_created_date_format">Created : %s</string>
+    <string name="item_memo_completed_date_format">Completed : %s</string>
 
     <!--  Activity  -->
     <!--  Main  -->
@@ -22,7 +26,7 @@
     <string name="main_template_today_todo">1. Today TODO</string>
     <string name="main_template_this_week_todo">2. This Week TODO</string>
     <string name="main_template_this_month_todo">3. This Month TODO</string>
-    <string name="main_emtpy_message">EMPTY</string>
+    <string name="main_empty_message">EMPTY</string>
 
     <!--  Translatable false  -->
     <string name="main_today_format" translatable="false">yyyy-MM-dd E</string>

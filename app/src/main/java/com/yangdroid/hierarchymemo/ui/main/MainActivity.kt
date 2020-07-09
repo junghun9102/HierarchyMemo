@@ -4,18 +4,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.component.BaseActivity
 import com.yangdroid.hierarchymemo.databinding.ActivityMainBinding
-import com.yangdroid.hierarchymemo.extension.makeGone
-import com.yangdroid.hierarchymemo.extension.makeVisible
-import com.yangdroid.hierarchymemo.extension.showErrorToast
-import com.yangdroid.hierarchymemo.extension.showSuccessToast
+import com.yangdroid.hierarchymemo.extension.*
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
+import com.yangdroid.hierarchymemo.ui.memo.MemoActivity
 import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
 import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
 import com.yangdroid.hierarchymemo.utils.getTodayTodoString
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -69,7 +70,8 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun initMemoRecyclerView() {
-        rv_main_memo.adapter = MemoRecyclerAdapter()
+        rv_main_memo.adapter = MemoRecyclerAdapter(::onClickMemo, ::onLongClickMemo)
+        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(rv_main_memo)
     }
 
     private fun setMemoEditText(content: String) {
@@ -87,7 +89,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun showMemoList(memoList: List<Memo>) {
-        (rv_main_memo.adapter as MemoRecyclerAdapter).initMemoList(memoList)
+        getMemoAdapter().initMemoList(memoList)
     }
 
     override fun focusMemoEditText() {
@@ -109,18 +111,59 @@ class MainActivity : BaseActivity(), MainContract.View {
         tv_main_empty_message.makeGone()
     }
 
-    override fun updateNewMemo(memo: Memo) {
-        (rv_main_memo.adapter as MemoRecyclerAdapter).addMemo(memo)
+    override fun addNewMemoToRecyclerView(memo: Memo) {
+        getMemoAdapter().addMemo(memo)
         showSuccessToast(R.string.common_message_success_write)
+    }
+
+    override fun updateMemoToRecyclerView(memo: Memo) {
+        getMemoAdapter().updateMemo(memo)
+    }
+
+    override fun showDeleteCompleteMessage() {
+        showSuccessToast(R.string.common_message_success_delete)
+    }
+
+    override fun showDeleteFailMessage() {
+        showSuccessToast(R.string.common_message_error_delete_fail)
+    }
+
+    override fun showUpdateCompleteMessage() {
+        showSuccessToast(R.string.common_message_success_update)
     }
 
     override fun hideSoftKeyboard() {
         hideKeyboard()
     }
 
+    private fun onClickMemo(memo: Memo) {
+        startActivity<MemoActivity>()
+    }
+
+    private fun onLongClickMemo(memo: Memo) {
+        if (memo.completedDate == null) {
+            presenter.changeModeToEdit()
+            presenter.setMemoToUpdate(memo)
+            setMemoEditText(memo.content)
+        } else {
+            showToast(R.string.common_message_completed_memo_cannot_edit)
+        }
+    }
+
     private fun onHideKeyboard() {
         presenter.changeModeToNormal()
         et_main_edit.text.clear()
+    }
+
+    private fun getMemoAdapter() = rv_main_memo.adapter as MemoRecyclerAdapter
+
+    private val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
+        override fun onMove(r: RecyclerView, v: RecyclerView.ViewHolder, t: RecyclerView.ViewHolder) = false
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val memoToRemove = getMemoAdapter().getMemo(viewHolder.adapterPosition)
+            presenter.onDeleteFromRecyclerView(memoToRemove)
+            getMemoAdapter().removeMemo(memoToRemove)
+        }
     }
 
 }

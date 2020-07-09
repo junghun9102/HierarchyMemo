@@ -10,9 +10,13 @@ interface MainContract {
         fun showMemoList(memoList: List<Memo>)
         fun focusMemoEditText()
         fun showErrorMessage(message: String)
+        fun showDeleteCompleteMessage()
+        fun showDeleteFailMessage()
+        fun showUpdateCompleteMessage()
         fun showEmptyMessage()
         fun hideEmptyMessage()
-        fun updateNewMemo(memo: Memo)
+        fun addNewMemoToRecyclerView(memo: Memo)
+        fun updateMemoToRecyclerView(memo: Memo)
         fun hideSoftKeyboard()
     }
 
@@ -24,5 +28,7 @@ interface MainContract {
         fun changeModeToEdit()
         fun changeModeToNormal()
         fun writeMemo(content: String)
+        fun setMemoToUpdate(memo: Memo)
+        fun onDeleteFromRecyclerView(memo: Memo)
     }
 }

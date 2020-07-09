@@ -8,7 +8,11 @@
     <string name="common_date_year_month">yyyy년 M월 </string>
 
     <string name="common_message_error_empty_write">메모 내용이 없습니다</string>
+    <string name="common_message_error_delete_fail">Delete fail</string>
     <string name="common_message_success_write">Writing success!</string>
+    <string name="common_message_success_delete">Successfully deleted!</string>
+    <string name="common_message_success_update">Update success!</string>
+    <string name="common_message_completed_memo_cannot_edit">완료된 메모는 수정할 수 없습니다</string>
 
     <!--  Item  -->
     <!--  Memo  -->
@@ -22,6 +26,6 @@
     <string name="main_template_today_todo">1. 오늘 할 일</string>
     <string name="main_template_this_week_todo">2. 이번 주 할 일</string>
     <string name="main_template_this_month_todo">3. 이번 달 할 일</string>
-    <string name="main_emtpy_message">EMPTY</string>
+    <string name="main_empty_message">EMPTY</string>
 
 </resources>
