@@ -10,6 +10,7 @@ import com.yangdroid.hierarchymemo.databinding.ActivityMainBinding
 import com.yangdroid.hierarchymemo.extension.makeGone
 import com.yangdroid.hierarchymemo.extension.makeVisible
 import com.yangdroid.hierarchymemo.extension.showErrorToast
+import com.yangdroid.hierarchymemo.extension.showSuccessToast
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
 import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
@@ -61,7 +62,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         val memoContent = et_main_edit.text.toString()
         if (memoContent.isEmpty()) {
             hideSoftKeyboard()
-            showErrorToast(R.string.common_error_message_empty_write)
+            showErrorToast(R.string.common_message_error_empty_write)
         } else {
             presenter.writeMemo(memoContent)
         }
@@ -110,6 +111,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun updateNewMemo(memo: Memo) {
         (rv_main_memo.adapter as MemoRecyclerAdapter).addMemo(memo)
+        showSuccessToast(R.string.common_message_success_write)
     }
 
     override fun hideSoftKeyboard() {

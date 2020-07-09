@@ -22,32 +22,32 @@ data class MemoBoxed(
 ) {
 
     companion object {
-        const val SPANNABLE_PREFIX = " {\n"
-        const val SPANNABLE_SUFFIX = "}"
+        const val SPANNABLE_PREFIX = " {"
         const val SPANNABLE_SPLIT = ","
     }
 
-    fun getSpannableContent(context: Context): SpannableString {
+    fun getSpannableMemo(context: Context): SpannableString {
         val mainStrColor = ContextCompat.getColor(context, R.color.colorBlue)
+        val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
+
+        return SpannableString("$content$SPANNABLE_PREFIX").apply {
+            setSpan(ForegroundColorSpan(mainStrColor), 0, lastIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            setSpan(ForegroundColorSpan(specialCharColor), lastIndex, lastIndex+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        }
+    }
+
+    fun getSpannableChildMemo(context: Context): SpannableString {
         val subStrColor = ContextCompat.getColor(context, R.color.colorPurple)
         val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
 
+        var index = 0
         val originString = StringBuilder()
 
         // <colorResId, startIndex, endIndex>
         val colorInformList = mutableListOf<Triple<Int, Int, Int>>()
 
-        var index = 0
-        originString.append(content)
-        colorInformList.add(Triple(mainStrColor, index, originString.length))
-        index = originString.length
-
-        originString.append(SPANNABLE_PREFIX)
-        colorInformList.add(Triple(specialCharColor, index, originString.length))
-        index = originString.length
-
         childMemoContentList.forEachIndexed { i, childContent ->
-            originString.append("\t\t\t\t\t$childContent")
+            originString.append(childContent)
             colorInformList.add(Triple(subStrColor, index, originString.length))
             index = originString.length
 
@@ -55,12 +55,9 @@ data class MemoBoxed(
                 originString.append(SPANNABLE_SPLIT)
                 colorInformList.add(Triple(specialCharColor, index, originString.length))
                 index = originString.length
+                originString.append('\n')
             }
-            originString.append('\n')
         }
-
-        originString.append(SPANNABLE_SUFFIX)
-        colorInformList.add(Triple(specialCharColor, index, originString.length))
 
         val spannableString = SpannableString(originString.toString())
         colorInformList.forEach {
@@ -70,6 +67,50 @@ data class MemoBoxed(
 
         return spannableString
     }
+//
+//    fun getSpannableContent(context: Context): SpannableString {
+//        val mainStrColor = ContextCompat.getColor(context, R.color.colorBlue)
+//        val subStrColor = ContextCompat.getColor(context, R.color.colorPurple)
+//        val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
+//
+//        val originString = StringBuilder()
+//
+//        // <colorResId, startIndex, endIndex>
+//        val colorInformList = mutableListOf<Triple<Int, Int, Int>>()
+//
+//        var index = 0
+//        originString.append(content)
+//        colorInformList.add(Triple(mainStrColor, index, originString.length))
+//        index = originString.length
+//
+//        originString.append(SPANNABLE_PREFIX)
+//        colorInformList.add(Triple(specialCharColor, index, originString.length))
+//        index = originString.length
+//
+//        childMemoContentList.forEachIndexed { i, childContent ->
+//            originString.append("\t\t\t\t\t$childContent")
+//            colorInformList.add(Triple(subStrColor, index, originString.length))
+//            index = originString.length
+//
+//            if (i != childContent.lastIndex) {
+//                originString.append(SPANNABLE_SPLIT)
+//                colorInformList.add(Triple(specialCharColor, index, originString.length))
+//                index = originString.length
+//            }
+//            originString.append('\n')
+//        }
+//
+//        originString.append(SPANNABLE_SUFFIX)
+//        colorInformList.add(Triple(specialCharColor, index, originString.length))
+//
+//        val spannableString = SpannableString(originString.toString())
+//        colorInformList.forEach {
+//            val color = ForegroundColorSpan(it.first)
+//            spannableString.setSpan(color, it.second, it.third, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//        }
+//
+//        return spannableString
+//    }
 
     fun getCreatedDate(context: Context) = String.format(context.getString(R.string.item_memo_created_date_format), StringUtils.getYearMonthDayStr(context, createdDate))
     fun getCompletedDate(context: Context) = String.format(context.getString(R.string.item_memo_completed_date_format), StringUtils.getYearMonthDayStr(context, completedDate!!))

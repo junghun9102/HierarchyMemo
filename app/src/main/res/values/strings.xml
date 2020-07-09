@@ -7,7 +7,8 @@
     <string name="common_date_year_month_day">MMM d, yyyy</string>
     <string name="common_date_year_month">MMM, yyyy</string>
 
-    <string name="common_error_message_empty_write">There is no memo content</string>
+    <string name="common_message_error_empty_write">There is no memo content</string>
+    <string name="common_message_success_write">Writing success!</string>
 
     <!--  Item  -->
     <!--  Memo  -->
