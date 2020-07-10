@@ -20,7 +20,7 @@ interface MemoDAO {
     @Query("SELECT * FROM memo_table WHERE parentId = :parentId")
     fun getChildMemoListByParentId(parentId: Long): Single<List<MemoDTO>>
 
-    @Query("SELECT content FROM memo_table WHERE parentId = :parentId")
+    @Query("SELECT content FROM memo_table WHERE parentId = :parentId AND completedDate IS NULL")
     fun getChildMemoContentListByParentId(parentId: Long): Single<List<String>>
 
     @Insert

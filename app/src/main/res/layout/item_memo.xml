@@ -10,22 +10,22 @@
         android:id="@+id/tv_item_memo_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:text="취업하기"
-        android:textSize="19dp"
         android:textColor="@color/colorBlue"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="19dp"
+        app:layout_constraintEnd_toStartOf="@+id/fl_item_memo_expand"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cl_item_memo_expand"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/ll_item_memo_expand_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_memo_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cl_item_memo_expand">
+        app:layout_constraintEnd_toStartOf="@+id/fl_item_memo_expand">
 
         <TextView
             android:id="@+id/tv_item_memo_expand_content_child"
@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/cl_item_memo_expand"
+        android:id="@+id/fl_item_memo_expand"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:paddingStart="10dp"
@@ -58,18 +58,17 @@
 
         <ImageView
             android:id="@+id/iv_item_memo_expand_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/ic_add_black_24dp"
-            android:tint="@color/colorGrey"
-            android:background="@drawable/round_rectangle" />
+            android:src="@drawable/custom_round_rectangle_plus" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_item_memo_expand_minus"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" >
@@ -78,9 +77,7 @@
                 android:id="@+id/iv_item_memo_expand_minus_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_black_24dp"
-                android:tint="@color/colorGrey"
-                android:background="@drawable/round_rectangle"
+                android:src="@drawable/custom_round_rectangle_minus"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -88,9 +85,7 @@
                 android:id="@+id/iv_item_memo_expand_minus_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_black_24dp"
-                android:tint="@color/colorGrey"
-                android:background="@drawable/round_rectangle"
+                android:src="@drawable/custom_round_rectangle_minus"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

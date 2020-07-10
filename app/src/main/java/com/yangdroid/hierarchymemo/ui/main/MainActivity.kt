@@ -1,7 +1,9 @@
 package com.yangdroid.hierarchymemo.ui.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -12,6 +14,7 @@ import com.yangdroid.hierarchymemo.databinding.ActivityMainBinding
 import com.yangdroid.hierarchymemo.extension.*
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.ui.memo.MemoActivity
+import com.yangdroid.hierarchymemo.ui.model.parcelable.toParcel
 import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
 import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
 import com.yangdroid.hierarchymemo.utils.getTodayTodoString
@@ -39,12 +42,18 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun onResume() {
         super.onResume()
+        presenter.loadMemoList()
         addKeyboardListener(onHideKeyBoard = ::onHideKeyboard)
     }
 
     override fun onPause() {
         super.onPause()
         removeKeyboardListener()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e("Test", "onNewIntent")
     }
 
     private fun initViews() {
@@ -137,7 +146,9 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun onClickMemo(memo: Memo) {
-        startActivity<MemoActivity>()
+        startActivity<MemoActivity>(
+            Pair(MemoActivity.EXTRA_DATA_CURRENT_MEMO, memo.toParcel())
+        )
     }
 
     private fun onLongClickMemo(memo: Memo) {

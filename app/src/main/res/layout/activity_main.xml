@@ -4,7 +4,7 @@
     <data>
 
         <import type="android.view.View" />
-        <import type="com.yangdroid.hierarchymemo.ui.main.MainPresenter.Mode" />
+        <import type="com.yangdroid.hierarchymemo.Constants.Mode" />
         <import type="com.yangdroid.hierarchymemo.ui.main.MainPresenter.MemoTypeToLoad" />
 
         <variable
@@ -229,6 +229,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--  Write ImageButton -->
         <ImageView
             android:id="@+id/iv_main_write"
             android:layout_width="wrap_content"

@@ -8,15 +8,15 @@ interface MainContract {
     interface View: BaseView {
         fun showTodayDate(date: Date)
         fun showMemoList(memoList: List<Memo>)
-        fun focusMemoEditText()
+        fun addNewMemoToRecyclerView(memo: Memo)
+        fun updateMemoToRecyclerView(memo: Memo)
         fun showErrorMessage(message: String)
         fun showDeleteCompleteMessage()
         fun showDeleteFailMessage()
         fun showUpdateCompleteMessage()
         fun showEmptyMessage()
         fun hideEmptyMessage()
-        fun addNewMemoToRecyclerView(memo: Memo)
-        fun updateMemoToRecyclerView(memo: Memo)
+        fun focusMemoEditText()
         fun hideSoftKeyboard()
     }
 

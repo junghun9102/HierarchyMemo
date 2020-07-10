@@ -1,4 +1,4 @@
-package com.yangdroid.hierarchymemo.ui.main
+package com.yangdroid.hierarchymemo.ui.memo
 
 import androidx.databinding.ObservableField
 import com.yangdroid.hierarchymemo.Constants
@@ -8,48 +8,26 @@ import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.model.domain.usecase.*
 import java.util.*
 
-class MainPresenter(
-    view: MainContract.View,
-    private val getRootProgressMemoList: GetRootProgressMemoList,
-    private val getRootCompletedMemoList: GetRootCompletedMemoList,
+class MemoPresenter(
+    view: MemoContract.View,
+    private val getChildMemoList: GetChildMemoList,
     private val insertMemo: InsertMemo,
     private val deleteMemo: DeleteMemo,
     private val completeMemo: CompleteMemo,
     private val updateMemo: UpdateMemo
-) : BasePresenter<MainContract.View>(view), MainContract.Presenter {
+) : BasePresenter<MemoContract.View>(view), MemoContract.Presenter {
 
+    lateinit var currentMemo: Memo
     val mode = ObservableField<Constants.Mode>(Constants.Mode.NORMAL)
-    val type = ObservableField<MemoTypeToLoad>(MemoTypeToLoad.PROGRESS)
 
     private var memoToEdit: Memo? = null
 
-    fun onCreate() {
-        loadTodayDate()
-    }
-
-    override fun loadTodayDate() {
-        view.showTodayDate(Date())
+    fun onCreate(memo: Memo) {
+        currentMemo = memo
     }
 
     override fun loadMemoList() {
-        when (type.get()) {
-            MemoTypeToLoad.PROGRESS -> loadProgressMemoList()
-            MemoTypeToLoad.COMPLETED -> loadCompletedMemoList()
-        }
-    }
-
-    private fun loadProgressMemoList() {
-        compositeDisposable += getRootProgressMemoList.get()
-            .subscribe({ result ->
-                view.showMemoList(result)
-                showOrHideEmptyMessage(result.isEmpty())
-            }) {
-                it.message?.let(view::showErrorMessage)
-            }
-    }
-
-    private fun loadCompletedMemoList() {
-        compositeDisposable += getRootCompletedMemoList.get()
+        compositeDisposable += getChildMemoList.get(currentMemo.id!!)
             .subscribe({ result ->
                 view.showMemoList(result)
                 showOrHideEmptyMessage(result.isEmpty())
@@ -66,16 +44,6 @@ class MainPresenter(
         }
     }
 
-    override fun changeTypeToProgress() {
-        type.set(MemoTypeToLoad.PROGRESS)
-        loadMemoList()
-    }
-
-    override fun changeTypeToCompleted() {
-        type.set(MemoTypeToLoad.COMPLETED)
-        loadMemoList()
-    }
-
     override fun changeModeToEdit() {
         mode.set(Constants.Mode.EDIT)
         view.focusMemoEditText()
@@ -83,11 +51,6 @@ class MainPresenter(
 
     override fun changeModeToNormal() {
         mode.set(Constants.Mode.NORMAL)
-        memoToEdit = null
-    }
-
-    override fun setMemoToUpdate(memo: Memo) {
-        memoToEdit = memo
     }
 
     override fun writeMemo(content: String) {
@@ -103,7 +66,7 @@ class MainPresenter(
                 }
         } ?: run {
             val memo =
-                Memo(content = content, childMemoContentList = emptyList(), createdDate = Date())
+                Memo(content = content, parentId = currentMemo.id, childMemoContentList = emptyList(), createdDate = Date())
             compositeDisposable += insertMemo.get(memo)
                 .subscribe({ id ->
                     memo.id = id
@@ -114,6 +77,10 @@ class MainPresenter(
                     it.message?.let(view::showErrorMessage)
                 }
         }
+    }
+
+    override fun setMemoToUpdate(memo: Memo) {
+        memoToEdit = memo
     }
 
     override fun onDeleteFromRecyclerView(memo: Memo) {
@@ -138,12 +105,11 @@ class MainPresenter(
         compositeDisposable += completeMemo.get(memo)
             .subscribe ({
                 view.showDeleteCompleteMessage()
+                view.addNewMemoToRecyclerView(it)
             }) {
                 loadMemoList()
                 view.showDeleteFailMessage()
             }
     }
-
-    enum class MemoTypeToLoad { PROGRESS, COMPLETED }
 
 }

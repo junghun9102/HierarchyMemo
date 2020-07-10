@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.utils.StringUtils
-import java.lang.StringBuilder
 import java.util.*
 
 data class MemoBoxed(
@@ -27,7 +26,7 @@ data class MemoBoxed(
     }
 
     fun getSpannableMemo(context: Context): SpannableString {
-        val mainStrColor = ContextCompat.getColor(context, R.color.colorBlue)
+        val mainStrColor = ContextCompat.getColor(context, if (completedDate == null) R.color.colorBlue else R.color.colorGrey)
         val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
 
         return SpannableString("$content$SPANNABLE_PREFIX").apply {
@@ -51,7 +50,7 @@ data class MemoBoxed(
             colorInformList.add(Triple(subStrColor, index, originString.length))
             index = originString.length
 
-            if (i != childContent.lastIndex) {
+            if (i != childMemoContentList.lastIndex) {
                 originString.append(SPANNABLE_SPLIT)
                 colorInformList.add(Triple(specialCharColor, index, originString.length))
                 index = originString.length

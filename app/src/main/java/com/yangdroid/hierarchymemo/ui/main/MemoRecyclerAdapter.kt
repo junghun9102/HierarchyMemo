@@ -3,6 +3,7 @@ package com.yangdroid.hierarchymemo.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.extension.makeGone
@@ -27,8 +28,7 @@ class MemoRecyclerAdapter(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_memo, parent, false)
         val holder = MemoHolder(view)
         view.run {
-            iv_item_memo_expand_plus.setOnClickListener { onClickExpandUI(holder.adapterPosition) }
-            cl_item_memo_expand_minus.setOnClickListener { onClickExpandUI(holder.adapterPosition) }
+            fl_item_memo_expand.setOnClickListener { onClickExpandUI(holder.adapterPosition) }
             setOnClickListener { onClickMemo.invoke(dataSet[holder.adapterPosition].unboxing()) }
             setOnLongClickListener {
                 onLongClickMemo.invoke(dataSet[holder.adapterPosition].unboxing())
@@ -53,14 +53,20 @@ class MemoRecyclerAdapter(
     fun initMemoList(memoList: List<Memo>) {
         dataSet.run {
             clear()
-            addAll(memoList.map(Memo::boxing))
+            addAll(memoList.map(Memo::boxing).sortedBy { it.completedDate })
         }
         notifyDataSetChanged()
     }
 
     fun addMemo(memo: Memo) {
-        dataSet.add(memo.boxing())
-        notifyItemInserted(dataSet.lastIndex)
+        val firstCompleteMemo = dataSet.firstOrNull { it.completedDate != null }
+        val index = if (memo.completedDate == null && firstCompleteMemo != null) {
+            dataSet.indexOf(firstCompleteMemo)
+        } else {
+            dataSet.lastIndex+1
+        }
+        dataSet.add(index, memo.boxing())
+        notifyItemInserted(index)
     }
 
     fun updateMemo(memo: Memo) {
@@ -107,13 +113,15 @@ class MemoRecyclerAdapter(
             } else {
                 itemView.ll_item_memo_expand_content.makeGone()
                 itemView.tv_item_memo_content.text = memo.content
+                val textColor = if (memo.completedDate == null) R.color.colorBlue else R.color.colorGrey
+                itemView.tv_item_memo_content.setTextColor(ContextCompat.getColor(itemView.context, textColor))
             }
         }
 
         private fun updateExpandState(memo: MemoBoxed) {
             val isExpandable = memo.childMemoContentList.isNotEmpty()
             if (isExpandable) {
-                itemView.cl_item_memo_expand.makeVisible()
+                itemView.fl_item_memo_expand.makeVisible()
                 if (memo.isExpand) {
                     itemView.iv_item_memo_expand_plus.makeInvisible()
                     itemView.cl_item_memo_expand_minus.makeVisible()
@@ -122,7 +130,7 @@ class MemoRecyclerAdapter(
                     itemView.cl_item_memo_expand_minus.makeInvisible()
                 }
             } else {
-                itemView.cl_item_memo_expand.makeInvisible()
+                itemView.fl_item_memo_expand.makeInvisible()
             }
         }
 
