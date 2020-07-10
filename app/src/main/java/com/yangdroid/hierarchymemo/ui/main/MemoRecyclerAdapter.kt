@@ -85,6 +85,26 @@ class MemoRecyclerAdapter(
         }
     }
 
+    fun expandAll() {
+        dataSet.filter { it.childMemoContentList.isNotEmpty() }
+            .filter { it.isExpand.not() }
+            .forEach {
+                it.isExpand = true
+                val index = dataSet.indexOf(it)
+                notifyItemChanged(index)
+            }
+    }
+
+    fun shrinkAll() {
+        dataSet.filter { it.childMemoContentList.isNotEmpty() }
+            .filter { it.isExpand }
+            .forEach {
+                it.isExpand = false
+                val index = dataSet.indexOf(it)
+                notifyItemChanged(index)
+            }
+    }
+
     fun getMemo(position: Int) = dataSet[position].unboxing()
 
     class MemoHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

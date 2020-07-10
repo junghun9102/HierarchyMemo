@@ -51,11 +51,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         removeKeyboardListener()
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        Log.e("Test", "onNewIntent")
-    }
-
     private fun initViews() {
         initTemplateClick()
         initMemoRecyclerView()
@@ -66,6 +61,8 @@ class MainActivity : BaseActivity(), MainContract.View {
         tv_main_template_week.setOnClickListener { setMemoEditText(getThisWeekTodoString()) }
         tv_main_template_month.setOnClickListener { setMemoEditText(getThisMonthTodoString()) }
         iv_main_edit_write.setOnClickListener { onClickWriteButton() }
+        iv_main_all_expand.setOnClickListener { getMemoAdapter().expandAll() }
+        iv_main_all_shrink.setOnClickListener { getMemoAdapter().shrinkAll() }
     }
 
     private fun onClickWriteButton() {

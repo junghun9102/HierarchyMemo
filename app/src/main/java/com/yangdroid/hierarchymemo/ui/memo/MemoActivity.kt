@@ -53,6 +53,8 @@ class MemoActivity : BaseActivity(), MemoContract.View {
         initMemoRecyclerView()
         iv_memo_edit_write.setOnClickListener { onClickWriteButton() }
         iv_memo_close.setOnClickListener { finish() }
+        iv_memo_all_expand.setOnClickListener { getMemoAdapter().expandAll() }
+        iv_memo_all_shrink.setOnClickListener { getMemoAdapter().shrinkAll() }
     }
 
     private fun onClickWriteButton() {

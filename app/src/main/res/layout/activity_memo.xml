@@ -151,6 +151,28 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ImageView
+            android:id="@+id/iv_memo_all_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:src="@drawable/ic_unfold_more_black_24dp"
+            android:tint="@color/colorNormal"
+            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_memo_write" />
+
+        <ImageView
+            android:id="@+id/iv_memo_all_shrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:src="@drawable/ic_unfold_less_black_24dp"
+            android:tint="@color/colorNormal"
+            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_memo_all_expand" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
