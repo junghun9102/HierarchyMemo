@@ -21,7 +21,12 @@ object StringUtils {
         val endDate = weekStartAndEndDate.second
 
         val startDateString = startDate.format(getYearMonthDay(context))
-        val endDateString = endDate.format(getYearMonthDay(context))
+        var endDateString = endDate.format(getYearMonthDay(context))
+        if (Locale.getDefault() == Locale.KOREA) {
+            endDateString = endDateString.split(" ").toMutableList()
+                .apply { removeAll(startDateString.split(" ")) }
+                .reduce { acc, s -> "$acc$s" }
+        }
         val todo = getTodo(context)
 
         return "<$startDateString ~ $endDateString> $todo"
