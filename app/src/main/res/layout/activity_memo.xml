@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.memo.MemoActivity">
 
-        <!--  Header  -->
+        <!--  layer 0: Header  -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_memo_header"
             android:layout_width="0dp"
@@ -66,7 +66,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--  MemoList  -->
+        <!--  layer 0: MemoList  -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_memo_memo"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -77,7 +77,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!--  EmptyMessage  -->
+        <!--  layer 0: Tools -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_memo_all_shrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:src="@drawable/ic_unfold_less_black_24dp"
+                android:tint="@color/colorNormal"
+                android:background="@null" />
+
+            <ImageView
+                android:id="@+id/iv_memo_all_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:src="@drawable/ic_unfold_more_black_24dp"
+                android:tint="@color/colorNormal"
+                android:background="@null" />
+
+            <ImageView
+                android:id="@+id/iv_memo_write"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:src="@drawable/ic_create_black_24dp"
+                android:tint="@color/colorNormal"
+                android:onClick="@{() -> presenter.changeModeToEdit()}"
+                android:background="@null" />
+
+        </LinearLayout>
+
+        <!--  layer 1: EmptyMessage  -->
         <TextView
             android:id="@+id/tv_memo_empty_message"
             android:layout_width="wrap_content"
@@ -89,7 +132,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!--  EditMode  -->
+        <!--  layer 1: EditMode  -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -137,41 +180,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--  Write ImageButton -->
-        <ImageView
-            android:id="@+id/iv_memo_write"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:src="@drawable/ic_create_black_24dp"
-            android:tint="@color/colorNormal"
-            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
-            android:onClick="@{() -> presenter.changeModeToEdit()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_memo_all_expand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:src="@drawable/ic_unfold_more_black_24dp"
-            android:tint="@color/colorNormal"
-            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_memo_write" />
-
-        <ImageView
-            android:id="@+id/iv_memo_all_shrink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:src="@drawable/ic_unfold_less_black_24dp"
-            android:tint="@color/colorNormal"
-            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_memo_all_expand" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
