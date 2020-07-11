@@ -118,6 +118,8 @@ class MemoRecyclerAdapter(
 
     fun getMemo(position: Int) = dataSet[position].unboxing()
 
+    fun isEmpty() = dataSet.isEmpty()
+
     class MemoHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun onBind(memo: MemoBoxed) {
             updateContent(memo)

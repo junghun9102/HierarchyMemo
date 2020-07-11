@@ -11,28 +11,21 @@ import java.util.*
 class MainPresenter(
     view: MainContract.View,
     private val getRootProgressMemoList: GetRootProgressMemoList,
-    private val getRootCompletedMemoList: GetRootCompletedMemoList,
-    private val insertMemo: InsertMemo,
-    private val deleteMemo: DeleteMemo,
-    private val completeMemo: CompleteMemo,
-    private val updateMemo: UpdateMemo
+    private val getRootCompletedMemoList: GetRootCompletedMemoList
 ) : BasePresenter<MainContract.View>(view), MainContract.Presenter {
 
-    val mode = ObservableField<Constants.Mode>(Constants.Mode.NORMAL)
     val type = ObservableField<MemoTypeToLoad>(MemoTypeToLoad.PROGRESS)
 
-    private var memoToEdit: Memo? = null
-
-    fun onCreate() {
+    override fun onCreate() {
         loadTodayDate()
         loadMemoList()
     }
 
-    override fun loadTodayDate() {
+    private fun loadTodayDate() {
         view.showTodayDate(Date())
     }
 
-    override fun loadMemoList() {
+    private fun loadMemoList() {
         when (type.get()) {
             MemoTypeToLoad.PROGRESS -> loadProgressMemoList()
             MemoTypeToLoad.COMPLETED -> loadCompletedMemoList()
@@ -43,9 +36,8 @@ class MainPresenter(
         compositeDisposable += getRootProgressMemoList.get()
             .subscribe({ result ->
                 view.showMemoList(result)
-                showOrHideEmptyMessage(result.isEmpty())
             }) {
-                it.message?.let(view::showErrorMessage)
+                it.message?.let(view::toastLoadErrorMessage)
             }
     }
 
@@ -53,96 +45,19 @@ class MainPresenter(
         compositeDisposable += getRootCompletedMemoList.get()
             .subscribe({ result ->
                 view.showMemoList(result)
-                showOrHideEmptyMessage(result.isEmpty())
             }) {
-                it.message?.let(view::showErrorMessage)
+                it.message?.let(view::toastLoadErrorMessage)
             }
     }
 
-    private fun showOrHideEmptyMessage(isEmpty: Boolean) {
-        if (isEmpty) {
-            view.showEmptyMessage()
-        } else {
-            view.hideEmptyMessage()
-        }
-    }
-
-    override fun changeTypeToProgress() {
+    fun changeTypeToProgress() {
         type.set(MemoTypeToLoad.PROGRESS)
         loadMemoList()
     }
 
-    override fun changeTypeToCompleted() {
+    fun changeTypeToCompleted() {
         type.set(MemoTypeToLoad.COMPLETED)
         loadMemoList()
-    }
-
-    override fun changeModeToEdit() {
-        mode.set(Constants.Mode.EDIT)
-        view.focusMemoEditText()
-    }
-
-    override fun changeModeToNormal() {
-        mode.set(Constants.Mode.NORMAL)
-        memoToEdit = null
-    }
-
-    override fun setMemoToUpdate(memo: Memo) {
-        memoToEdit = memo
-    }
-
-    override fun writeMemo(content: String) {
-        memoToEdit?.let {
-            it.content = content
-            compositeDisposable += updateMemo.get(it)
-                .subscribe({
-                    view.updateMemoToRecyclerView(it)
-                    view.showUpdateCompleteMessage()
-                    view.hideSoftKeyboard()
-                }) { throwable ->
-                    throwable.message?.let(view::showErrorMessage)
-                }
-        } ?: run {
-            val memo =
-                Memo(content = content, childMemoContentList = emptyList(), createdDate = Date())
-            compositeDisposable += insertMemo.get(memo)
-                .subscribe({ id ->
-                    memo.id = id
-                    view.addNewMemoToRecyclerView(memo)
-                    view.hideEmptyMessage()
-                    view.hideSoftKeyboard()
-                }) {
-                    it.message?.let(view::showErrorMessage)
-                }
-        }
-    }
-
-    override fun onDeleteFromRecyclerView(memo: Memo) {
-        if (memo.completedDate == null) {
-            completeMemo(memo)
-        } else {
-            deleteMemoFromDatabase(memo)
-        }
-    }
-
-    private fun deleteMemoFromDatabase(memo: Memo) {
-        compositeDisposable += deleteMemo.get(memo)
-            .subscribe({
-                view.showDeleteCompleteMessage()
-            }) {
-                loadMemoList()
-                view.showDeleteFailMessage()
-            }
-    }
-
-    private fun completeMemo(memo: Memo) {
-        compositeDisposable += completeMemo.get(memo)
-            .subscribe ({
-                view.showDeleteCompleteMessage()
-            }) {
-                loadMemoList()
-                view.showDeleteFailMessage()
-            }
     }
 
     enum class MemoTypeToLoad { PROGRESS, COMPLETED }

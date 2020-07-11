@@ -5,11 +5,15 @@
     <data>
 
         <import type="android.view.View" />
-        <import type="com.yangdroid.hierarchymemo.Constants.Mode" />
+        <import type="com.yangdroid.hierarchymemo.ui.component.memo.MemoViewModel.Mode" />
+
+        <variable
+            name="memoViewModel"
+            type="com.yangdroid.hierarchymemo.ui.component.memo.MemoViewModel" />
 
         <variable
             name="presenter"
-            type="com.yangdroid.hierarchymemo.ui.memo.MemoPresenter" />
+            type="com.yangdroid.hierarchymemo.ui.memo.SubMemoPresenter" />
 
     </data>
 
@@ -18,7 +22,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.memo.MemoActivity">
+        tools:context=".ui.memo.SubMemoActivity">
 
         <!--  layer 0: Header  -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="50dp"
                 android:padding="10dp"
-                android:text="@{presenter.currentMemo.content}"
+                android:text="@{presenter.getTitle()}"
                 android:textColor="@color/colorNormal"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -84,7 +88,7 @@
             android:padding="5dp"
             android:orientation="horizontal"
             android:gravity="end"
-            android:visibility="@{presenter.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
+            android:visibility="@{memoViewModel.output.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +119,7 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_create_black_24dp"
                 android:tint="@color/colorNormal"
-                android:onClick="@{() -> presenter.changeModeToEdit()}"
+                android:onClick="@{() -> memoViewModel.input.changeModeToCreate()}"
                 android:background="@null" />
 
         </LinearLayout>
@@ -137,7 +141,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#A000"
-            android:visibility="@{presenter.mode == Mode.EDIT ? View.VISIBLE : View.GONE}"
+            android:visibility="@{memoViewModel.output.mode() != Mode.NORMAL ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

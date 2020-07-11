@@ -48,7 +48,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
 
     private lateinit var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener
 
-    fun addKeyboardListener(onShowKeyboard: () -> Unit = {}, onHideKeyBoard: () -> Unit = {}) {
+    fun addKeyboardListener(onShowSoftKeyboard: () -> Unit = {}, onHideSoftKeyboard: () -> Unit = {}) {
         val minKeyboardHeight = 150
         val decorView = window.decorView
         onGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -60,12 +60,12 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
                 val visibleDecorViewHeight = windowVisibleDisplayFrame.height()
                 if (lastVisibleDecorViewHeight != 0) {
                     if (lastVisibleDecorViewHeight + minKeyboardHeight < visibleDecorViewHeight) {
-                        onHideKeyBoard.invoke()
+                        onHideSoftKeyboard.invoke()
                     }
                 } else {
                     if ((lastVisibleDecorViewHeight > visibleDecorViewHeight + minKeyboardHeight) ||
                         (isShowKeyboard && lastVisibleDecorViewHeight != visibleDecorViewHeight)) {
-                        onShowKeyboard.invoke()
+                        onShowSoftKeyboard.invoke()
                         isShowKeyboard = true
                     }
                 }
@@ -80,7 +80,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         decorView.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
-    fun hideKeyboard() {
+    fun hideSoftKeyboard() {
         val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
         var view = currentFocus

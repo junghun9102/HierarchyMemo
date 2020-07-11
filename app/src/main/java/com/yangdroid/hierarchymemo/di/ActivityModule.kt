@@ -2,8 +2,8 @@ package com.yangdroid.hierarchymemo.di
 
 import com.yangdroid.hierarchymemo.ui.main.MainActivity
 import com.yangdroid.hierarchymemo.ui.main.di.MainModule
-import com.yangdroid.hierarchymemo.ui.memo.MemoActivity
-import com.yangdroid.hierarchymemo.ui.memo.di.MemoModule
+import com.yangdroid.hierarchymemo.ui.memo.SubMemoActivity
+import com.yangdroid.hierarchymemo.ui.memo.di.SubMemoModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -15,7 +15,7 @@ abstract class ActivityModule {
     abstract fun mainActivity(): MainActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MemoModule::class])
-    abstract fun memoActivity(): MemoActivity
+    @ContributesAndroidInjector(modules = [SubMemoModule::class])
+    abstract fun memoActivity(): SubMemoActivity
 
 }

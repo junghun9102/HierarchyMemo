@@ -1,17 +1,17 @@
-package com.yangdroid.hierarchymemo.ui.main
+package com.yangdroid.hierarchymemo.ui.memo
 
 import com.yangdroid.hierarchymemo.component.BaseView
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
-import java.util.*
 
-interface MainContract {
+interface SubMemoContract {
     interface View: BaseView {
-        fun showTodayDate(date: Date)
         fun showMemoList(memoList: List<Memo>)
         fun toastLoadErrorMessage(message: String)
     }
 
     interface Presenter {
-        fun onCreate()
+        fun onCreate(memo: Memo)
+        fun getCurrentMemoId(): Long
+        fun getTitle(): String
     }
 }

@@ -15,19 +15,11 @@ class MainModule {
     fun provideMainPresenter(
         view: MainActivity,
         getRootProgressMemoList: GetRootProgressMemoList,
-        getRootCompletedMemoList: GetRootCompletedMemoList,
-        insertMemo: InsertMemo,
-        deleteMemo: DeleteMemo,
-        completeMemo: CompleteMemo,
-        updateMemo: UpdateMemo
+        getRootCompletedMemoList: GetRootCompletedMemoList
     ) = MainPresenter(
         view,
         getRootProgressMemoList,
-        getRootCompletedMemoList,
-        insertMemo,
-        deleteMemo,
-        completeMemo,
-        updateMemo
+        getRootCompletedMemoList
     )
 
 }
