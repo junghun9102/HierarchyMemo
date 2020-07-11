@@ -88,6 +88,14 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
         }
     }
 
+    override fun subscribeMemoViewModel() {
+        super.subscribeMemoViewModel()
+        disposables += memoViewModel.output.addCompleteMemoToRecyclerView().subscribe {
+            getRecyclerAdapter().addMemo(it)
+            checkListEmptyAndSetEmptyMessageVisible()
+        }
+    }
+
     override fun focusMemoEditTextAndShowKeyboard() {
         if (et_memo_edit.requestFocus()) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

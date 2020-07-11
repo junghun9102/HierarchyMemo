@@ -65,7 +65,7 @@ abstract class MemoActivity : BaseActivity() {
         }
     }
 
-    protected fun subscribeMemoViewModel() {
+    protected open fun subscribeMemoViewModel() {
         memoViewModel.output.run {
             disposables += toastErrorMessage().subscribe(this@MemoActivity::toastErrorMessage)
             disposables += toastDeleteSuccessMessage().subscribe { this@MemoActivity.toastDeleteSuccessMessage() }
