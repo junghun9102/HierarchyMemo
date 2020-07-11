@@ -24,6 +24,7 @@ class MemoPresenter(
 
     fun onCreate(memo: Memo) {
         currentMemo = memo
+        loadMemoList()
     }
 
     override fun loadMemoList() {

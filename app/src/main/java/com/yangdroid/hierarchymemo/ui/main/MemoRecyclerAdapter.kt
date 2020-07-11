@@ -77,6 +77,14 @@ class MemoRecyclerAdapter(
         }
     }
 
+    fun updateMemoChildContentList(memoId: Long, memoChildContentList: List<String>) {
+        dataSet.find { it.id == memoId}?.let { memoToUpdate ->
+            val indexToUpdate = dataSet.indexOf(memoToUpdate)
+            memoToUpdate.childMemoContentList = memoChildContentList
+            notifyItemChanged(indexToUpdate)
+        }
+    }
+
     fun removeMemo(memo: Memo) {
         dataSet.find { it.id == memo.id }?.let { memoToRemove ->
             val indexToRemove = dataSet.indexOf(memoToRemove)
@@ -104,6 +112,9 @@ class MemoRecyclerAdapter(
                 notifyItemChanged(index)
             }
     }
+
+    fun getContentList() = dataSet.filter { it.completedDate == null }
+        .map { it.content }.toTypedArray()
 
     fun getMemo(position: Int) = dataSet[position].unboxing()
 

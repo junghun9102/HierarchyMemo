@@ -1,11 +1,14 @@
 package com.yangdroid.hierarchymemo.ui.memo
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.yangdroid.hierarchymemo.Constants
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.component.BaseActivity
 import com.yangdroid.hierarchymemo.databinding.ActivityMemoBinding
@@ -16,7 +19,6 @@ import com.yangdroid.hierarchymemo.ui.model.parcelable.ParcelableMemo
 import com.yangdroid.hierarchymemo.ui.model.parcelable.toEntity
 import com.yangdroid.hierarchymemo.ui.model.parcelable.toParcel
 import kotlinx.android.synthetic.main.activity_memo.*
-import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class MemoActivity : BaseActivity(), MemoContract.View {
@@ -40,7 +42,6 @@ class MemoActivity : BaseActivity(), MemoContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadMemoList()
         addKeyboardListener(onHideKeyBoard = ::onHideKeyboard)
     }
 
@@ -49,10 +50,24 @@ class MemoActivity : BaseActivity(), MemoContract.View {
         removeKeyboardListener()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.REQUEST_CODE_MEMO_STACK && resultCode == Activity.RESULT_OK) {
+            data?.run {
+                val id = getLongExtra(EXTRA_DATA_RETURN_MEMO_ID, -1L)
+                if (id != -1L) {
+                    getStringArrayExtra(EXTRA_DATA_RETURN_MEMO_CHILD_CONTENT)?.let {
+                        getMemoAdapter().updateMemoChildContentList(id, it.toList())
+                    }
+                }
+            }
+        }
+    }
+
     private fun initViews() {
         initMemoRecyclerView()
         iv_memo_edit_write.setOnClickListener { onClickWriteButton() }
-        iv_memo_close.setOnClickListener { finish() }
+        iv_memo_close.setOnClickListener { onBackPressed() }
         iv_memo_all_expand.setOnClickListener { getMemoAdapter().expandAll() }
         iv_memo_all_shrink.setOnClickListener { getMemoAdapter().shrinkAll() }
     }
@@ -126,9 +141,9 @@ class MemoActivity : BaseActivity(), MemoContract.View {
     }
 
     private fun onClickMemo(memo: Memo) {
-        startActivity<MemoActivity>(
-            Pair(EXTRA_DATA_CURRENT_MEMO, memo.toParcel())
-        )
+        startActivityForResult(Intent(this, MemoActivity::class.java).apply {
+            putExtra(EXTRA_DATA_CURRENT_MEMO, memo.toParcel())
+        }, Constants.REQUEST_CODE_MEMO_STACK)
     }
 
     private fun onLongClickMemo(memo: Memo) {
@@ -149,6 +164,14 @@ class MemoActivity : BaseActivity(), MemoContract.View {
         }
     }
 
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(EXTRA_DATA_RETURN_MEMO_ID, presenter.currentMemo.id)
+            putExtra(EXTRA_DATA_RETURN_MEMO_CHILD_CONTENT, getMemoAdapter().getContentList())
+        })
+        finish()
+    }
+
     private fun getMemoAdapter() = rv_memo_memo.adapter as MemoRecyclerAdapter
 
     private val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
@@ -162,5 +185,7 @@ class MemoActivity : BaseActivity(), MemoContract.View {
 
     companion object {
         const val EXTRA_DATA_CURRENT_MEMO = "extraDataCurrentMemo"
+        const val EXTRA_DATA_RETURN_MEMO_ID = "extraDataReturnMemoId"
+        const val EXTRA_DATA_RETURN_MEMO_CHILD_CONTENT = "extraDataReturnMemoChildContent"
     }
 }

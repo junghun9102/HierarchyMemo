@@ -1,13 +1,14 @@
 package com.yangdroid.hierarchymemo.ui.main
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.yangdroid.hierarchymemo.Constants
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.component.BaseActivity
 import com.yangdroid.hierarchymemo.databinding.ActivityMainBinding
@@ -19,7 +20,6 @@ import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
 import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
 import com.yangdroid.hierarchymemo.utils.getTodayTodoString
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -42,13 +42,26 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadMemoList()
         addKeyboardListener(onHideKeyBoard = ::onHideKeyboard)
     }
 
     override fun onPause() {
         super.onPause()
         removeKeyboardListener()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.REQUEST_CODE_MEMO_STACK && resultCode == Activity.RESULT_OK) {
+            data?.run {
+                val id = getLongExtra(MemoActivity.EXTRA_DATA_RETURN_MEMO_ID, -1L)
+                if (id != -1L) {
+                    getStringArrayExtra(MemoActivity.EXTRA_DATA_RETURN_MEMO_CHILD_CONTENT)?.let {
+                        getMemoAdapter().updateMemoChildContentList(id, it.toList())
+                    }
+                }
+            }
+        }
     }
 
     private fun initViews() {
@@ -143,9 +156,9 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun onClickMemo(memo: Memo) {
-        startActivity<MemoActivity>(
-            Pair(MemoActivity.EXTRA_DATA_CURRENT_MEMO, memo.toParcel())
-        )
+        startActivityForResult(Intent(this, MemoActivity::class.java).apply {
+            putExtra(MemoActivity.EXTRA_DATA_CURRENT_MEMO, memo.toParcel())
+        }, Constants.REQUEST_CODE_MEMO_STACK)
     }
 
     private fun onLongClickMemo(memo: Memo) {

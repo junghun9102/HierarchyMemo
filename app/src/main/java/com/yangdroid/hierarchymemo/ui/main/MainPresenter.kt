@@ -25,6 +25,7 @@ class MainPresenter(
 
     fun onCreate() {
         loadTodayDate()
+        loadMemoList()
     }
 
     override fun loadTodayDate() {

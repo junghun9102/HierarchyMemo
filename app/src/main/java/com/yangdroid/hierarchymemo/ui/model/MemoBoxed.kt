@@ -14,7 +14,7 @@ data class MemoBoxed(
     var id: Long?,
     var parentId: Long?,
     var content: String,
-    val childMemoContentList: List<String>,
+    var childMemoContentList: List<String>,
     var createdDate: Date,
     var completedDate: Date?,
     var isExpand: Boolean = false
