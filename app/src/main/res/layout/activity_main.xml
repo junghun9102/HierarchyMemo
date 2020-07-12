@@ -107,6 +107,8 @@
             android:id="@+id/rv_main_memo"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:paddingBottom="50dp"
+            android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/ll_main_select_type"
             app:layout_constraintBottom_toBottomOf="parent"
