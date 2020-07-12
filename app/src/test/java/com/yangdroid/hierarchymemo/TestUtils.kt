@@ -16,6 +16,11 @@ fun <T> any(type : Class<T>): T {
     return uninitialized()
 }
 
+fun <T> anyList(type : Class<T>): List<T> {
+    Mockito.any(type)
+    return uninitialized()
+}
+
 @Suppress("UNCHECKED_CAST")
 fun <T> uninitialized(): T = null as T
 
