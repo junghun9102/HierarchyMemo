@@ -1,5 +1,6 @@
 package com.yangdroid.hierarchymemo.ui.main
 
+import com.nhaarman.mockitokotlin2.check
 import com.yangdroid.hierarchymemo.any
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.model.domain.repository.MemoRepository
@@ -42,9 +43,9 @@ class MainPresenterTest {
     @Test
     fun 메인_초기화() {
         // Given
-        val list = listOf(Memo(0L, null, "hello", emptyList(), Date(), null))
+        val rootMemoList = listOf(Memo(0L, null, "hello", emptyList(), Date(), null))
         val childMemoContentList = listOf("A", "B", "C")
-        `when`(memoRepository.getRootProgressMemoList()).thenReturn(Single.just(list))
+        `when`(memoRepository.getRootProgressMemoList()).thenReturn(Single.just(rootMemoList))
         `when`(memoRepository.getChildMemoContentListByParentId(ArgumentMatchers.anyLong())).thenReturn(Single.just(childMemoContentList))
 
         // When
@@ -52,7 +53,12 @@ class MainPresenterTest {
 
         // Then
         verify(view).showTodayDate(any(Date::class.java))
-        verify(view).showMemoList(list)
+        verify(view).showMemoList(check {
+            val firstMemo = it.first()
+            assertEquals(firstMemo.id, 0L)
+            assertEquals(firstMemo.content, "hello")
+            assertEquals(firstMemo.childMemoContentList.size, 3)
+        })
     }
 
     @Test
@@ -67,8 +73,13 @@ class MainPresenterTest {
         presenter.changeTypeToProgress()
 
         // Then
-        verify(view).showMemoList(list)
         assertEquals(MainPresenter.MemoTypeToLoad.PROGRESS, presenter.type.get())
+        verify(view).showMemoList(check {
+            val firstMemo = it.first()
+            assertEquals(firstMemo.id, 0L)
+            assertEquals(firstMemo.content, "hello")
+            assertEquals(firstMemo.childMemoContentList.size, 4)
+        })
     }
 
     @Test
@@ -83,7 +94,12 @@ class MainPresenterTest {
         presenter.changeTypeToCompleted()
 
         // Then
-        verify(view).showMemoList(list)
         assertEquals(MainPresenter.MemoTypeToLoad.COMPLETED, presenter.type.get())
+        verify(view).showMemoList(check {
+            val firstMemo = it.first()
+            assertEquals(firstMemo.id, 0L)
+            assertEquals(firstMemo.content, "hello")
+            assertEquals(firstMemo.childMemoContentList.size, 5)
+        })
     }
 }

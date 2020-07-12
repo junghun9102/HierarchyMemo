@@ -1,5 +1,7 @@
 package com.yangdroid.hierarchymemo.ui.memo
 
+import com.nhaarman.mockitokotlin2.argThat
+import com.nhaarman.mockitokotlin2.check
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.model.domain.repository.MemoRepository
 import com.yangdroid.hierarchymemo.model.domain.schedulers.SchedulersProvider
@@ -15,6 +17,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import java.util.*
+import kotlin.test.assertEquals
 
 class SubMemoPresenterTest {
 
@@ -50,6 +53,11 @@ class SubMemoPresenterTest {
         presenter.onCreate(currentMemo)
 
         // Then
-        verify(view).showMemoList(childMemoList)
+        verify(view).showMemoList(check {
+            val childMemo = it.first()
+            assertEquals(childMemo.id, 2)
+            assertEquals(childMemo.content, "world")
+            assertEquals(childMemo.childMemoContentList.size, 3)
+        })
     }
 }
