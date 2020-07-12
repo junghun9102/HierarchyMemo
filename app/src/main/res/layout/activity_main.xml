@@ -57,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:onClick="@{() -> presenter.changeTypeToProgress()}">
+                android:onClick="@{() -> presenter.changeTypeToProgress()}"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -81,7 +82,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:onClick="@{() -> presenter.changeTypeToCompleted()}">
+                android:onClick="@{() -> presenter.changeTypeToCompleted()}"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -108,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingBottom="50dp"
-            android:clipToPadding="true"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/ll_main_select_type"
             app:layout_constraintBottom_toBottomOf="parent"

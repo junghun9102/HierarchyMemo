@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:background">@color/colorSecondary</item>
         <item name="colorControlHighlight">@color/colorSelectableItemMemo</item>
-        <item name="android:selectableItemBackground">@drawable/selectable_item_background_memo</item>
     </style>
 
 </resources>
