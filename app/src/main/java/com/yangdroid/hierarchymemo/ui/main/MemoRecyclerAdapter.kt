@@ -139,7 +139,7 @@ class MemoRecyclerAdapter(
         }
 
         private fun updateContent(memo: MemoBoxed) {
-            if (memo.isExpand) {
+            if (memo.childMemoContentList.isNotEmpty() && memo.isExpand) {
                 itemView.ll_item_memo_expand_content.makeVisible()
                 itemView.tv_item_memo_content.text = memo.getSpannableMemo(itemView.context)
                 itemView.tv_item_memo_expand_content_child.text = memo.getSpannableChildMemo(itemView.context)
