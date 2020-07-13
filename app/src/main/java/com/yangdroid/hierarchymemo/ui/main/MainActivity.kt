@@ -48,6 +48,7 @@ class MainActivity : MemoActivity(), MainContract.View {
     private fun initViews() {
         initTemplateClickListener()
         initToolsClickListener()
+        initEditModeBackgroundClickListener()
         initMemoRecyclerView()
     }
 
@@ -58,13 +59,20 @@ class MainActivity : MemoActivity(), MainContract.View {
     }
 
     private fun initToolsClickListener() {
-        iv_main_edit_write.setOnClickListener { onClickWriteButton() }
+        iv_main_edit_mode_write.setOnClickListener { onClickWriteButton() }
         iv_main_all_expand.setOnClickListener { getRecyclerAdapter().expandAll() }
         iv_main_all_shrink.setOnClickListener { getRecyclerAdapter().shrinkAll() }
     }
 
+    private fun initEditModeBackgroundClickListener() {
+        cl_main_edit_mode.setOnClickListener {
+            memoViewModel.input.changeModeToNormal()
+            hideSoftKeyboard()
+        }
+    }
+
     private fun onClickWriteButton() {
-        val memoContent = et_main_edit.text.toString()
+        val memoContent = et_main_edit_mode_write.text.toString()
         if (memoContent.isEmpty()) {
             hideSoftKeyboard()
             showErrorToast(R.string.common_message_error_empty_write)
@@ -94,7 +102,7 @@ class MainActivity : MemoActivity(), MainContract.View {
     }
 
     override fun setMemoEditText(content: String) {
-        et_main_edit.run {
+        et_main_edit_mode_write.run {
             text.clear()
             setText(content)
             setSelection(content.length)
@@ -102,15 +110,15 @@ class MainActivity : MemoActivity(), MainContract.View {
     }
 
     override fun focusMemoEditTextAndShowKeyboard() {
-        if (et_main_edit.requestFocus()) {
+        if (et_main_edit_mode_write.requestFocus()) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(et_main_edit, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(et_main_edit_mode_write, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
     override fun onHideSoftKeyboard() {
         memoViewModel.input.changeModeToNormal()
-        et_main_edit.text.clear()
+        et_main_edit_mode_write.text.clear()
     }
 
     override fun checkListEmptyAndSetEmptyMessageVisible() {

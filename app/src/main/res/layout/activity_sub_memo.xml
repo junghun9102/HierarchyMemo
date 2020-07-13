@@ -26,7 +26,7 @@
 
         <!--  layer 0: Header  -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_memo_header"
+            android:id="@+id/cl_sub_memo_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent" >
 
             <TextView
-                android:id="@+id/tv_memo_title"
+                android:id="@+id/tv_sub_memo_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="50dp"
@@ -50,7 +50,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_memo_close"
+                android:id="@+id/iv_sub_memo_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -58,7 +58,7 @@
                 android:tint="@color/colorGrey"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_memo_title" />
+                app:layout_constraintStart_toEndOf="@+id/tv_sub_memo_title" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -72,13 +72,13 @@
 
         <!--  layer 0: MemoList  -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_memo_memo"
+            android:id="@+id/rv_sub_memo_memo"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingBottom="50dp"
             android:clipToPadding="false"
-            app:layout_constraintTop_toBottomOf="@+id/cl_memo_header"
+            app:layout_constraintTop_toBottomOf="@+id/cl_sub_memo_header"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -97,7 +97,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:id="@+id/iv_memo_all_shrink"
+                android:id="@+id/iv_sub_memo_all_shrink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -106,7 +106,7 @@
                 android:background="@null" />
 
             <ImageView
-                android:id="@+id/iv_memo_all_expand"
+                android:id="@+id/iv_sub_memo_all_expand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -115,7 +115,7 @@
                 android:background="@null" />
 
             <ImageView
-                android:id="@+id/iv_memo_write"
+                android:id="@+id/iv_sub_memo_write"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -128,7 +128,7 @@
 
         <!--  layer 1: EmptyMessage  -->
         <TextView
-            android:id="@+id/tv_memo_empty_message"
+            android:id="@+id/tv_sub_memo_empty_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/main_empty_message"
@@ -140,6 +140,7 @@
 
         <!--  layer 1: EditMode  -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_sub_memo_edit_mode"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#A000"
@@ -150,7 +151,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_memo_edit"
+                android:id="@+id/cl_sub_memo_edit_mode_write"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/black"
@@ -159,7 +160,7 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <ImageView
-                    android:id="@+id/iv_memo_edit_write"
+                    android:id="@+id/iv_sub_memo_edit_mode_write"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
@@ -170,7 +171,7 @@
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <EditText
-                    android:id="@+id/et_memo_edit"
+                    android:id="@+id/et_sub_memo_edit_mode_write"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -181,7 +182,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_memo_edit_write" />
+                    app:layout_constraintEnd_toStartOf="@+id/iv_sub_memo_edit_mode_write" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

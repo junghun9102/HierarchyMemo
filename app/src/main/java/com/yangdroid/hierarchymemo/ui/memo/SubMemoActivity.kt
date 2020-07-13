@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.yangdroid.hierarchymemo.R
-import com.yangdroid.hierarchymemo.databinding.ActivityMemoBinding
+import com.yangdroid.hierarchymemo.databinding.ActivitySubMemoBinding
 import com.yangdroid.hierarchymemo.extension.makeGone
 import com.yangdroid.hierarchymemo.extension.makeVisible
 import com.yangdroid.hierarchymemo.extension.plusAssign
@@ -19,7 +19,7 @@ import com.yangdroid.hierarchymemo.ui.component.memo.MemoViewModel
 import com.yangdroid.hierarchymemo.ui.main.MemoRecyclerAdapter
 import com.yangdroid.hierarchymemo.ui.model.parcelable.ParcelableMemo
 import com.yangdroid.hierarchymemo.ui.model.parcelable.toEntity
-import kotlinx.android.synthetic.main.activity_memo.*
+import kotlinx.android.synthetic.main.activity_sub_memo.*
 import javax.inject.Inject
 
 class SubMemoActivity : MemoActivity(), SubMemoContract.View {
@@ -33,7 +33,7 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DataBindingUtil.setContentView<ActivityMemoBinding>(this, R.layout.activity_memo).apply {
+        DataBindingUtil.setContentView<ActivitySubMemoBinding>(this, R.layout.activity_sub_memo).apply {
             memoViewModel = this@SubMemoActivity.memoViewModel
             presenter = this@SubMemoActivity.presenter
             lifecycleOwner = this@SubMemoActivity
@@ -49,15 +49,27 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
     }
 
     private fun initViews() {
+        initDefaultClickListener()
+        initToolsClickListener()
         initMemoRecyclerView()
-        iv_memo_edit_write.setOnClickListener { onClickWriteButton() }
-        iv_memo_close.setOnClickListener { onBackPressed() }
-        iv_memo_all_expand.setOnClickListener { getRecyclerAdapter().expandAll() }
-        iv_memo_all_shrink.setOnClickListener { getRecyclerAdapter().shrinkAll() }
+    }
+
+    private fun initDefaultClickListener() {
+        iv_sub_memo_close.setOnClickListener { onBackPressed() }
+        cl_sub_memo_edit_mode.setOnClickListener {
+            memoViewModel.input.changeModeToNormal()
+            hideSoftKeyboard()
+        }
+    }
+
+    private fun initToolsClickListener() {
+        iv_sub_memo_edit_mode_write.setOnClickListener { onClickWriteButton() }
+        iv_sub_memo_all_expand.setOnClickListener { getRecyclerAdapter().expandAll() }
+        iv_sub_memo_all_shrink.setOnClickListener { getRecyclerAdapter().shrinkAll() }
     }
 
     private fun onClickWriteButton() {
-        val memoContent = et_memo_edit.text.toString()
+        val memoContent = et_sub_memo_edit_mode_write.text.toString()
         if (memoContent.isEmpty()) {
             hideSoftKeyboard()
             showErrorToast(R.string.common_message_error_empty_write)
@@ -67,8 +79,8 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
     }
 
     private fun initMemoRecyclerView() {
-        rv_memo_memo.adapter = MemoRecyclerAdapter(::onClickMemo, ::onLongClickMemo)
-        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(rv_memo_memo)
+        rv_sub_memo_memo.adapter = MemoRecyclerAdapter(::onClickMemo, ::onLongClickMemo)
+        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(rv_sub_memo_memo)
     }
 
     override fun showMemoList(memoList: List<Memo>) {
@@ -81,7 +93,7 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
     }
 
     override fun setMemoEditText(content: String) {
-        et_memo_edit.run {
+        et_sub_memo_edit_mode_write.run {
             text.clear()
             setText(content)
             setSelection(content.length)
@@ -97,15 +109,15 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
     }
 
     override fun focusMemoEditTextAndShowKeyboard() {
-        if (et_memo_edit.requestFocus()) {
+        if (et_sub_memo_edit_mode_write.requestFocus()) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(et_memo_edit, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(et_sub_memo_edit_mode_write, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
     override fun onHideSoftKeyboard() {
         memoViewModel.input.changeModeToNormal()
-        et_memo_edit.text.clear()
+        et_sub_memo_edit_mode_write.text.clear()
     }
 
     override fun onBackPressed() {
@@ -118,13 +130,13 @@ class SubMemoActivity : MemoActivity(), SubMemoContract.View {
 
     override fun checkListEmptyAndSetEmptyMessageVisible() {
         if (getRecyclerAdapter().isEmpty()) {
-            tv_memo_empty_message.makeVisible()
+            tv_sub_memo_empty_message.makeVisible()
         } else {
-            tv_memo_empty_message.makeGone()
+            tv_sub_memo_empty_message.makeGone()
         }
     }
 
-    override fun getRecyclerAdapter(): MemoRecyclerAdapter = rv_memo_memo.adapter as MemoRecyclerAdapter
+    override fun getRecyclerAdapter(): MemoRecyclerAdapter = rv_sub_memo_memo.adapter as MemoRecyclerAdapter
 
     companion object {
         const val EXTRA_DATA_CURRENT_MEMO = "extraDataCurrentMemo"
