@@ -14,10 +14,12 @@ import com.yangdroid.hierarchymemo.extension.showErrorToast
 import com.yangdroid.hierarchymemo.model.domain.entity.Memo
 import com.yangdroid.hierarchymemo.ui.component.memo.MemoActivity
 import com.yangdroid.hierarchymemo.ui.component.memo.MemoViewModel
+import com.yangdroid.hierarchymemo.ui.theme_setting.ThemeSettingActivity
 import com.yangdroid.hierarchymemo.utils.getThisMonthTodoString
 import com.yangdroid.hierarchymemo.utils.getThisWeekTodoString
 import com.yangdroid.hierarchymemo.utils.getTodayTodoString
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -46,10 +48,17 @@ class MainActivity : MemoActivity(), MainContract.View {
     }
 
     private fun initViews() {
+        initTitleClickListener()
         initTemplateClickListener()
         initToolsClickListener()
         initEditModeBackgroundClickListener()
         initMemoRecyclerView()
+    }
+
+    private fun initTitleClickListener() {
+        tv_main_today.setOnClickListener {
+            startActivity<ThemeSettingActivity>()
+        }
     }
 
     private fun initTemplateClickListener() {

@@ -23,6 +23,7 @@
         android:id="@+id/cl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackground"
         tools:context=".ui.main.MainActivity">
 
         <!--  layer 0: Today  -->
@@ -72,7 +73,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/colorOrange"
+                    android:background="@color/colorAccent"
                     android:visibility="@{presenter.type == MemoTypeToLoad.PROGRESS ? View.VISIBLE : View.INVISIBLE}"/>
 
             </LinearLayout>
@@ -97,7 +98,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/colorOrange"
+                    android:background="@color/colorAccent"
                     android:visibility="@{presenter.type != MemoTypeToLoad.PROGRESS ? View.VISIBLE : View.INVISIBLE}"/>
 
             </LinearLayout>
@@ -125,7 +126,6 @@
             android:orientation="horizontal"
             android:gravity="end"
             android:visibility="@{(memoViewModel.output.mode() == Mode.NORMAL &amp;&amp; presenter.type == MemoTypeToLoad.PROGRESS) ? View.VISIBLE : View.GONE}"
-            android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -136,8 +136,7 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:src="@drawable/ic_unfold_less_black_24dp"
-                android:tint="@color/colorNormal"
-                android:background="@null" />
+                android:tint="@color/colorNormal" />
 
             <ImageView
                 android:id="@+id/iv_main_all_expand"
@@ -145,8 +144,7 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:src="@drawable/ic_unfold_more_black_24dp"
-                android:tint="@color/colorNormal"
-                android:background="@null" />
+                android:tint="@color/colorNormal" />
 
             <ImageView
                 android:id="@+id/iv_main_write"
@@ -155,8 +153,7 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_create_black_24dp"
                 android:tint="@color/colorNormal"
-                android:onClick="@{() -> memoViewModel.input.changeModeToCreate()}"
-                android:background="@null" />
+                android:onClick="@{() -> memoViewModel.input.changeModeToCreate()}" />
 
         </LinearLayout>
 
@@ -177,7 +174,7 @@
             android:id="@+id/cl_main_edit_mode"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#A000"
+            android:background="#C000"
             android:visibility="@{memoViewModel.output.mode() != Mode.NORMAL ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -224,7 +221,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@null"
                 android:gravity="end"
                 app:layout_constraintBottom_toTopOf="@+id/cl_main_edit_mode_write"
                 app:layout_constraintStart_toStartOf="parent"
@@ -236,10 +232,9 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="12dp"
-                    android:background="@null"
                     android:text="@string/main_template_title"
                     android:textSize="15dp"
-                    android:textColor="@color/colorGreen" />
+                    android:textColor="@color/colorSystemMessage" />
 
                 <TextView
                     android:id="@+id/tv_main_template_today"
@@ -248,10 +243,9 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="12dp"
-                    android:background="@null"
                     android:text="@string/main_template_today_todo"
                     android:textSize="15dp"
-                    android:textColor="@color/colorGreen" />
+                    android:textColor="@color/colorSystemMessage" />
 
                 <TextView
                     android:id="@+id/tv_main_template_week"
@@ -260,10 +254,9 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="12dp"
-                    android:background="@null"
                     android:text="@string/main_template_this_week_todo"
                     android:textSize="15dp"
-                    android:textColor="@color/colorGreen" />
+                    android:textColor="@color/colorSystemMessage" />
 
                 <TextView
                     android:id="@+id/tv_main_template_month"
@@ -272,10 +265,9 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="12dp"
-                    android:background="@null"
                     android:text="@string/main_template_this_month_todo"
                     android:textSize="15dp"
-                    android:textColor="@color/colorGreen" />
+                    android:textColor="@color/colorSystemMessage" />
 
             </LinearLayout>
 

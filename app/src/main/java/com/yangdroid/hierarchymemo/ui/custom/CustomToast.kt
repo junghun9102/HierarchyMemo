@@ -12,10 +12,10 @@ import org.jetbrains.anko.dimen
 object CustomToast {
 
     fun show(context: Context, stringResId: Int, duration: Int = Toast.LENGTH_SHORT) = showToast(context, context.getString(stringResId), duration)
-    fun showError(context: Context, stringResId: Int, duration: Int = Toast.LENGTH_SHORT) = showToast(context, context.getString(stringResId), duration, R.color.colorRed)
-    fun showSuccess(context: Context, stringResId: Int, duration: Int = Toast.LENGTH_SHORT) = showToast(context, context.getString(stringResId), duration, R.color.colorGreen)
+    fun showError(context: Context, stringResId: Int, duration: Int = Toast.LENGTH_SHORT) = showToast(context, context.getString(stringResId), duration, R.color.colorErrorMessage)
+    fun showSuccess(context: Context, stringResId: Int, duration: Int = Toast.LENGTH_SHORT) = showToast(context, context.getString(stringResId), duration, R.color.colorSystemMessage)
 
-    fun showError(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) = showToast(context, message, duration, R.color.colorRed)
+    fun showError(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) = showToast(context, message, duration, R.color.colorErrorMessage)
 
     private fun showToast(context: Context, content: String, duration: Int, colorResId: Int? = null) {
         val view = LayoutInflater.from(context).inflate(R.layout.view_toast, null)

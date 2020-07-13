@@ -25,20 +25,22 @@ data class MemoBoxed(
         const val SPANNABLE_SPLIT = ","
     }
 
-    fun getSpannableMemo(context: Context): SpannableString {
-        val mainStrColor = ContextCompat.getColor(context, if (completedDate == null) R.color.colorBlue else R.color.colorGrey)
-        val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
-
+    fun getSpannableMemo(
+        context: Context,
+        mainStrColor: Int = ContextCompat.getColor(context, if (completedDate == null) R.color.colorCodeMain else R.color.colorGrey),
+        specialCharColor: Int = ContextCompat.getColor(context, R.color.colorCodeSpecial)
+    ): SpannableString {
         return SpannableString("$content$SPANNABLE_PREFIX").apply {
             setSpan(ForegroundColorSpan(mainStrColor), 0, lastIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
             setSpan(ForegroundColorSpan(specialCharColor), lastIndex, lastIndex+1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }
     }
 
-    fun getSpannableChildMemo(context: Context): SpannableString {
-        val subStrColor = ContextCompat.getColor(context, R.color.colorPurple)
-        val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
-
+    fun getSpannableChildMemo(
+        context: Context,
+        subStrColor: Int = ContextCompat.getColor(context, R.color.colorCodeSub),
+        specialCharColor: Int = ContextCompat.getColor(context, R.color.colorCodeSpecial)
+    ): SpannableString {
         var index = 0
         val originString = StringBuilder()
 
@@ -68,9 +70,9 @@ data class MemoBoxed(
     }
 //
 //    fun getSpannableContent(context: Context): SpannableString {
-//        val mainStrColor = ContextCompat.getColor(context, R.color.colorBlue)
-//        val subStrColor = ContextCompat.getColor(context, R.color.colorPurple)
-//        val specialCharColor = ContextCompat.getColor(context, R.color.colorSky)
+//        val mainStrColor = ContextCompat.getColor(context, R.color.colorCodeMain)
+//        val subStrColor = ContextCompat.getColor(context, R.color.colorCodeSub)
+//        val specialCharColor = ContextCompat.getColor(context, R.color.colorCodeSpecial)
 //
 //        val originString = StringBuilder()
 //

@@ -146,7 +146,7 @@ class MemoRecyclerAdapter(
             } else {
                 itemView.ll_item_memo_expand_content.makeGone()
                 itemView.tv_item_memo_content.text = memo.content
-                val textColor = if (memo.completedDate == null) R.color.colorBlue else R.color.colorGrey
+                val textColor = if (memo.completedDate == null) R.color.colorCodeMain else R.color.colorGrey
                 itemView.tv_item_memo_content.setTextColor(ContextCompat.getColor(itemView.context, textColor))
             }
         }
