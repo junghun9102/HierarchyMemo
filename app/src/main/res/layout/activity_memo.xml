@@ -22,6 +22,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackground"
         tools:context=".ui.memo.SubMemoActivity">
 
         <!--  layer 0: Header  -->
@@ -63,7 +64,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:background="@color/colorOrange"
+                android:background="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -91,7 +92,6 @@
             android:orientation="horizontal"
             android:gravity="end"
             android:visibility="@{memoViewModel.output.mode == Mode.NORMAL ? View.VISIBLE : View.GONE}"
-            android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -102,8 +102,7 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:src="@drawable/ic_unfold_less_black_24dp"
-                android:tint="@color/colorNormal"
-                android:background="@null" />
+                android:tint="@color/colorNormal" />
 
             <ImageView
                 android:id="@+id/iv_memo_all_expand"
@@ -111,8 +110,7 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:src="@drawable/ic_unfold_more_black_24dp"
-                android:tint="@color/colorNormal"
-                android:background="@null" />
+                android:tint="@color/colorNormal" />
 
             <ImageView
                 android:id="@+id/iv_memo_write"
@@ -121,8 +119,7 @@
                 android:padding="15dp"
                 android:src="@drawable/ic_create_black_24dp"
                 android:tint="@color/colorNormal"
-                android:onClick="@{() -> memoViewModel.input.changeModeToCreate()}"
-                android:background="@null" />
+                android:onClick="@{() -> memoViewModel.input.changeModeToCreate()}" />
 
         </LinearLayout>
 

@@ -28,4 +28,10 @@
     <string name="main_template_this_month_todo">3. 이번 달 할 일</string>
     <string name="main_empty_message">EMPTY</string>
 
+    <!--  ThemeSetting  -->
+    <string name="theme_setting_title">테마 설정</string>
+    <string name="theme_setting_system">시스템에 따라 변경</string>
+    <string name="theme_setting_light">LIGHT MODE</string>
+    <string name="theme_setting_dark">DARK MODE</string>
+
 </resources>

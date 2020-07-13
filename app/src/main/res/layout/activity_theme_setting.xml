@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <import type="com.yangdroid.hierarchymemo.ui.theme_setting.ThemeSettingPresenter.Theme" />
+
+        <variable
+            name="presenter"
+            type="com.yangdroid.hierarchymemo.ui.theme_setting.ThemeSettingPresenter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        tools:context=".ui.theme_setting.ThemeSettingActivity">
+
+        <TextView
+            android:id="@+id/tv_theme_setting_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center"
+            android:text="@string/theme_setting_title"
+            android:textSize="20dp"
+            android:textColor="@color/colorNormal"
+            android:textStyle="bold"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_theme_setting_default"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:clickable="@{presenter.theme != Theme.DEFAULT}"
+            android:background="@{presenter.theme == Theme.DEFAULT ? @drawable/custom_theme_default_selected : @drawable/custom_theme_default_unselected}"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> presenter.changeThemeToDefault()}"
+            app:layout_constraintTop_toBottomOf="@+id/tv_theme_setting_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkbox_theme_setting_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:checked="@{presenter.theme == Theme.DEFAULT}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/theme_setting_system"
+                android:textSize="15dp"
+                android:textColor="@color/colorNormal"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_theme_setting_default"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_theme_setting_light"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:clickable="@{presenter.theme != Theme.LIGHT}"
+            android:background="@{presenter.theme == Theme.LIGHT ? @drawable/custom_theme_light_selected : @drawable/custom_theme_light_unselected}"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> presenter.changeThemeToLight()}"
+            app:layout_constraintTop_toBottomOf="@+id/cl_theme_setting_default"
+            app:layout_constraintBottom_toTopOf="@+id/cl_theme_setting_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkbox_theme_setting_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:checked="@{presenter.theme == Theme.LIGHT}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/theme_setting_light"
+                android:textSize="15dp"
+                android:textColor="@color/colorLightNormal"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_theme_setting_light"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_theme_setting_light"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_theme_setting_light"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include
+                    android:id="@+id/layout_theme_setting_light_memo"
+                    layout="@layout/item_memo"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_theme_setting_dark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:clickable="@{presenter.theme != Theme.DARK}"
+            android:background="@{presenter.theme == Theme.DARK ? @drawable/custom_theme_dark_selected : @drawable/custom_theme_dark_unselected}"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> presenter.changeThemeToDark()}"
+            app:layout_constraintTop_toBottomOf="@+id/cl_theme_setting_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkbox_theme_setting_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:checked="@{presenter.theme == Theme.DARK}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/theme_setting_dark"
+                android:textSize="15dp"
+                android:textColor="@color/colorDarkNormal"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_theme_setting_dark"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_theme_setting_dark"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_theme_setting_dark"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include
+                    android:id="@+id/layout_theme_setting_dark_memo"
+                    layout="@layout/item_memo"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
