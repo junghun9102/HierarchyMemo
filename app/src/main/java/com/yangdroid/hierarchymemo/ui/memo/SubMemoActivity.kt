@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.yangdroid.hierarchymemo.R
 import com.yangdroid.hierarchymemo.databinding.ActivitySubMemoBinding
+import com.yangdroid.hierarchymemo.component.ViewModelFactory
 import com.yangdroid.hierarchymemo.extension.makeGone
 import com.yangdroid.hierarchymemo.extension.makeVisible
 import com.yangdroid.hierarchymemo.extension.plusAssign
@@ -25,13 +27,17 @@ import javax.inject.Inject
 class SubMemoActivity : MemoActivity(), SubMemoContract.View {
 
     @Inject
-    override lateinit var memoViewModel: MemoViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var presenter: SubMemoPresenter
 
+    override lateinit var memoViewModel: MemoViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+            super.onCreate(savedInstanceState)
+
+        memoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MemoViewModel::class.java)
 
         DataBindingUtil.setContentView<ActivitySubMemoBinding>(this, R.layout.activity_sub_memo).apply {
             memoViewModel = this@SubMemoActivity.memoViewModel

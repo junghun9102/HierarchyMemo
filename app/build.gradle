@@ -45,6 +45,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     // Rx (https://github.com/ReactiveX/RxJava, https://github.com/ReactiveX/RxAndroid, https://github.com/JakeWharton/retrofit2-rxjava2-adapter, https://github.com/JakeWharton/RxBinding)
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"

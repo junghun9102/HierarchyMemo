@@ -1,4 +1,4 @@
-package com.yangdroid.hierarchymemo.di
+package com.yangdroid.hierarchymemo.di.module
 
 import android.content.Context
 import com.yangdroid.hierarchymemo.model.local.AppDatabase

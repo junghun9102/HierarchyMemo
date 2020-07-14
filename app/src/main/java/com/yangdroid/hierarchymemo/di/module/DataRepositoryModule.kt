@@ -1,4 +1,4 @@
-package com.yangdroid.hierarchymemo.di
+package com.yangdroid.hierarchymemo.di.module
 
 import com.yangdroid.hierarchymemo.model.data.source.MemoLocalRepository
 import com.yangdroid.hierarchymemo.model.local.interactor.MemoLocalRepositoryImpl

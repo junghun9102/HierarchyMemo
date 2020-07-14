@@ -2,6 +2,7 @@ package com.yangdroid.hierarchymemo.di
 
 import android.app.Application
 import com.yangdroid.hierarchymemo.App
+import com.yangdroid.hierarchymemo.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -15,8 +16,7 @@ import javax.inject.Singleton
     ActivityModule::class,
     DomainRepositoryModule::class,
     DataRepositoryModule::class,
-    LocalModule::class,
-    ComponentModule::class
+    LocalModule::class
 ])
 interface AppComponent : AndroidInjector<App> {
 

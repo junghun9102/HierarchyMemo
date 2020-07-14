@@ -1,4 +1,4 @@
-package com.yangdroid.hierarchymemo.di
+package com.yangdroid.hierarchymemo.di.module
 
 import com.yangdroid.hierarchymemo.AppSchedulersProvider
 import com.yangdroid.hierarchymemo.model.data.interactor.MemoRepositoryImpl

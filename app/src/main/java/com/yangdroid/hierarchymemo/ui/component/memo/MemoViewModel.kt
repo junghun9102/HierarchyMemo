@@ -10,8 +10,9 @@ import com.yangdroid.hierarchymemo.model.domain.usecase.InsertMemo
 import com.yangdroid.hierarchymemo.model.domain.usecase.UpdateMemo
 import io.reactivex.subjects.PublishSubject
 import java.util.*
+import javax.inject.Inject
 
-class MemoViewModel(
+class MemoViewModel @Inject constructor(
     private val insertMemo: InsertMemo,
     private val deleteMemo: DeleteMemo,
     private val completeMemo: CompleteMemo,

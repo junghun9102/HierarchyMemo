@@ -33,7 +33,7 @@ ext {
 
     // DI (Koin)
     koinVersion = '2.0.0'
-    daggerVersion = '2.15'
+    daggerVersion = '2.22.1'
 
     // Test
     junitVersion = '4.12'

@@ -30,11 +30,6 @@ abstract class MemoActivity : BaseActivity() {
         removeKeyboardListener()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        memoViewModel.onCleared()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.REQUEST_CODE_MEMO_STACK && resultCode == Activity.RESULT_OK) {

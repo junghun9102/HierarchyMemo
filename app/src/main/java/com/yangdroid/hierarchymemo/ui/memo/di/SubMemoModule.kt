@@ -1,6 +1,6 @@
 package com.yangdroid.hierarchymemo.ui.memo.di
 
-import com.yangdroid.hierarchymemo.di.ActivityScope
+import com.yangdroid.hierarchymemo.di.scope.ActivityScope
 import com.yangdroid.hierarchymemo.model.domain.usecase.*
 import com.yangdroid.hierarchymemo.ui.memo.SubMemoActivity
 import com.yangdroid.hierarchymemo.ui.memo.SubMemoPresenter

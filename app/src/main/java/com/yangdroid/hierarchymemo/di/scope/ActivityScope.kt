@@ -1,4 +1,4 @@
-package com.yangdroid.hierarchymemo.di
+package com.yangdroid.hierarchymemo.di.scope
 
 import javax.inject.Scope
 
